@@ -1,0 +1,32 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<!-- (1)共通にしたいheadをfragment化する -->
+<head th:fragment="meta_header(title,links,scripts)">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <!-- (2)共通で読み込むCSS/JS -->
+	
+	<link th:href="@{/css/style.css}" rel="stylesheet" type="text/css">
+	<!-- (3)タイトルのフォーマット -->
+    <title th:text="${title}+' | sample app'">各ページタイトル | sample app</title>
+
+    <!-- (4)各View固有で読み込むもの -->
+    <th:block th:replace="${links} ?: _" />
+    <th:block th:replace="${scripts} ?: _" />
+</head>
+<body>
+    <!-- (5)body内で共通化したい部品をfragment化する -->
+    <header th:fragment="header" class="header">
+		<div class="header_container">
+	        <h1>My Portfolio</h1>
+			<!--ログイン前の表示-->
+			<div th:unless="${loggedIn}"><a th:href="@{'/profile'}" class="login_btn">ログイン</a></divth:unless="${loggedIn}">
+			<!--ログイン後の表示-->
+			<!--<div th:if="${loggedIn}"><a th:href="@{'/login'}">ログアウト</a></>-->
+		</div>
+    </header>
+	<footer th:fragment="footer" class="footer">
+		<div class="footer_container">
+		  <p>portfolio site</p>
+	  	</div>
+	</footer>
+</body>
+</html>
