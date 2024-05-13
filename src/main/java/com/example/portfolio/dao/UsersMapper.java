@@ -12,6 +12,6 @@ public interface UsersMapper {
      * ユーザー情報登録
      * @param userRequest 登録用リクエストデータ
      */
-    void save(UserAddRequest userRequest);
+    void save(UserAddRequest userAddRequest);
 	
 }
