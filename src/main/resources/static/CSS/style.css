@@ -1,10 +1,11 @@
-@font-face {
-    font-family: 'FontAwesome';
-    src: url(//saruwakakun.com/wp-content/themes/xeory_base/lib/fontawesome/css/../fonts/fontawesome-webfont.eot?v=4.7.0);
-    src: url(//saruwakakun.com/wp-content/themes/xeory_base/lib/fontawesome/css/../fonts/fontawesome-webfont.eot?#iefix&v=4.7.0) format('embedded-opentype'),url(//saruwakakun.com/wp-content/themes/xeory_base/lib/fontawesome/css/../fonts/fontawesome-webfont.woff2?v=4.7.0) format('woff2'),url(//saruwakakun.com/wp-content/themes/xeory_base/lib/fontawesome/css/../fonts/fontawesome-webfont.woff?v=4.7.0) format('woff'),url(//saruwakakun.com/wp-content/themes/xeory_base/lib/fontawesome/css/../fonts/fontawesome-webfont.ttf?v=4.7.0) format('truetype'),url(//saruwakakun.com/wp-content/themes/xeory_base/lib/fontawesome/css/../fonts/fontawesome-webfont.svg?v=4.7.0#fontawesomeregular) format('svg');
-    font-weight: normal;
-    font-style: normal
-}
+/*リセット*/
+/*
+  Josh's Custom CSS Reset
+  https://www.joshwcomeau.com/css/custom-css-reset/
+*/
+*,*::before,*::after{box-sizing:border-box}*{margin:0}body{line-height:1.5;-webkit-font-smoothing:antialiased}img,picture,video,canvas,svg{display:block;max-width:100%}input,button,textarea,select{font:inherit}p,h1,h2,h3,h4,h5,h6{overflow-wrap:break-word}#root,#__next{isolation:isolate}
+
+/*全体*/
 body{
 	 padding-top: 120px;
 }
@@ -50,7 +51,7 @@ h1{
 	font-size: 36px;
 	font-weight: 400;
 	text-align: center;
-	padding: 70px 0;
+	padding: 60px 0;
 	margin:0;
 }
 .entry_form{
@@ -58,7 +59,7 @@ h1{
 	margin:0 auto;
 }
 .form_in{
-	margin-bottom: 20px;
+	margin-bottom: 10px;
 }
 .form_in label{
 	font-size: 12px;
@@ -71,7 +72,7 @@ h1{
     border-left: none;
     border-right: none;
     display: block;
-    padding: 10px 0;
+    padding: 7px 0;
     width: 100%;
     font-size: 16px;
 }
@@ -88,6 +89,10 @@ h1{
 .form_in_btn{
 	text-align: center;
 	padding: 20px 0;
+}
+.message_error{
+	font-size:12px;
+	color: red;
 }
 footer{
 	box-sizing: border-box;
