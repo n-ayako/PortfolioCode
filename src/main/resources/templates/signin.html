@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<!-- 共通header -->
+<head th:replace="common :: meta_header('top',~{::link},~{::script})">
+    <!-- (2)このページ固有で読み込むCSS/JSあれば以下に記載 -->
+</head>
+<body>
+    <!-- body header共通部品を呼び出す -->
+    <div th:replace="common :: header"></div>
+	<main>
+		<section>
+			<div class="entry content">
+			<h2>新規登録</h2>
+				<div class="entry_form">
+					<form th:action="@{/create}" th:object="${userAddRequest}" th:method="post">
+						<!--エンドポイント/createに対してHTTP POSTリクエストを送信、userAddRequestオブジェクトのデータを送信し、saveメソッドで保存-->
+						<div class="form_in">
+							<label for="usernameInput">氏名</label>
+							<input type="text" id="usernameInput" class="form-field" th:field="*{name}">
+							<!--nameフィールドに情報を送る-->
+							<span class="message_error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+							<!--nameフィールドにエラーがあるか確認し、エラーがあれば対応するフィールドのエラーメッセージを表示-->
+						</div>
+						<div class="form_in">
+							<label for="usermailInput">メールアドレス</label>
+							<input type="text" id="usermailInput" th:field="*{email}" class="form-field">
+							<span class="message_error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+						</div>
+						<div class="form_in">
+							<label for="passwordInput">パスワード</label>
+							<input type="text" id="passwordInput" th:field="*{password}" class="form-field">
+							<span class="message_error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+							
+						</div>
+						<!--フォームには表示せずにコントローラーに値を渡す-->
+						<input type="hidden" id="self_introductionInput" th:field="*{self_introduction}" value="" class="form-field"/>
+						<!--ここまで-->
+						<div class="form_in_btn">
+							<input type="submit" value="登録する" class="entry_btn">
+						</div>
+					 </form>
+				 </div>
+			 </div>
+		 </section>
+	 </main>
+	 <!-- body footer共通部品を呼び出す -->
+	<div th:replace="common :: footer"></div>
+</body>
+</html>
