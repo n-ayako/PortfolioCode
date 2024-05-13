@@ -21,15 +21,17 @@ import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 
 
-
 @Controller
 public class PortfolioController {
 	//indexへのアクセスがあったらsigninにリダイレクトする
-	@GetMapping("/")
-    public String sinin(Model model) {
-        return "redirect:/signin";
-      }
     
+    @RequestMapping("/")
+    public String showLoginForm(Model model) {
+        //サインイン画面へ
+        return "redirect:/signin";
+    }
+    
+	
 	//クラスのインスタンスを自動的に生成し、他のクラスに依存関係として注入
     @Autowired
     private UserInfoService UserInfoService;
