@@ -3,7 +3,6 @@
 <head th:fragment="meta_header(title,links,scripts)">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <!-- (2)共通で読み込むCSS/JS -->
-	
 	<link th:href="@{/css/style.css}" rel="stylesheet" type="text/css">
 	<!-- (3)タイトルのフォーマット -->
     <title th:text="${title}+' | sample app'">各ページタイトル | sample app</title>
