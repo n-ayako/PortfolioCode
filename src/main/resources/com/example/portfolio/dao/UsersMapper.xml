@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<!--マッパーインターフェースとSQLステートメントを関連付け-->
+<mapper namespace="com.example.portfolio.dao.UsersMapper">
+
+    <!-- 新規登録のSQL文 -->
+    <insert id="save">
+        INSERT INTO users
+            (name, email, password, self_introduction, created_at, updated_at)
+        VALUES
+            (#{name}, #{email}, #{password}, #{self_introduction}, CURRENT_TIMESTAMP,  CURRENT_TIMESTAMP)
+    </insert>
+
+</mapper>
