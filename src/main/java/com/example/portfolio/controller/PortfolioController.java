@@ -69,13 +69,13 @@ public class PortfolioController {
         return "redirect:/portfolio";
     }
     
-    // /portfolioにGETリクエストがあった場合にportfolioを表示するメソッド
+    // /portfolioリクエストがあった場合にportfolioを表示するメソッド
     @GetMapping("/portfolio")
     public String displayPortfolio(Model model) {
         return "portfolio";
     }
     
-    // /loginにGETリクエストがあった場合にportfolioを表示するメソッド
+    // /loginにリクエストがあった場合にportfolioを表示するメソッド
     @GetMapping("/login")
     public String login(Model model) {
         return "login";

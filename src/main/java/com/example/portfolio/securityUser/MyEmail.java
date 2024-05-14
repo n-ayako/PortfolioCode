@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import lombok.Getter;
 import lombok.Setter;
-
+/*
 public class MyEmail implements UserDetails{
 	@Getter
     @Setter
@@ -53,5 +53,5 @@ public class MyEmail implements UserDetails{
 		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
-
 }
+*/

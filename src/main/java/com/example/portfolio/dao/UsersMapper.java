@@ -6,7 +6,6 @@ import org.apache.ibatis.annotations.Select;
 
 import com.example.portfolio.dto.UserAddRequest;
 import com.example.portfolio.entity.Users;
-import com.example.portfolio.securityUser.MyEmail;
 
 @Mapper
 public interface UsersMapper {

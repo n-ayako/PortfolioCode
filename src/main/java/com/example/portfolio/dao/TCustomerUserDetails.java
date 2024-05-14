@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.portfolio.entity.Users;
 
+/*
 @Service
 public class TCustomerUserDetails implements UserDetailsService {
     
@@ -31,3 +32,4 @@ public class TCustomerUserDetails implements UserDetailsService {
                 .build();
     }
 }
+*/
