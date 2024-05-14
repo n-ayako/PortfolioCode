@@ -5,7 +5,7 @@ import lombok.Data;//アノテーションを付けるとetter, setter, toString
 import java.util.Date;//日時を取得したり、日時を計算するときに使用する日付型のクラス
 
 //ユーザー情報 Entity（データベースのテーブル構造を表したオブジェクト）
-@Data
+@Data//対象クラス内のインスタンス変数に対してgetter/setterでアクセスすることが可能
 public class Users implements Serializable{
 	//ID
 	private Long id;
@@ -27,4 +27,40 @@ public class Users implements Serializable{
 	
 	//更新日
 	private Date updatedAt;
+	
+    public Long getId() {
+	return id;
+    }
+
+    public void setId(Long id) {
+	this.id = id;
+    }
+
+    public String name() {
+	return name;
+    }
+
+    public void setname(String name) {
+	this.name = name;
+    }
+    
+    public String getEmail() {
+	return email;
+    }
+
+    public void setEmail(String email) {
+	this.email = email;
+    }
+    
+    public String getPassword() {
+	return password;
+    }
+
+    public void setPassword(String password) {
+	this.password = password;
+    }
+    
+    
 }
+
+

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<!-- 共通header -->
+<head th:replace="common :: meta_header('top',~{::link},~{::script})">
+    <!-- このページ固有で読み込むCSS/JSあれば以下に記載 -->
+</head>
+<body>
+    <!-- body header共通部品を呼び出す -->
+    <div th:replace="common :: header"></div>
+	<main>
+		<section>
+			<div class="entry content">
+			<h2>ログイン</h2>
+				<div class="entry_form">
+					<form th:action="@{/login}" method="POST">
+						<!--エンドポイント/createに対してHTTP POSTリクエストを送信、userAddRequestオブジェクトのデータを送信し、saveメソッドで保存-->
+						<div class="form_in">
+							<label for="emailInput">メールアドレス</label>
+							<input type="text" id="emailInput" class="form-field required autofocus">
+						</div>
+						<div class="form_in">
+							<label for="passwordInput">パスワード</label>
+							<input type="text" id="passwordInput" class="form-field required">
+						</div>
+						<div class="form_in_btn">
+							<input type="submit" value="ログインする" class="entry_btn">
+						</div>
+						<div class="form_in_btn">
+							<input type="submit" value="新規登録する" class="entry_btn">
+						</div>
+					 </form>
+				 </div>
+				 
+			 </div>
+		 </section>
+	 </main>
+	 <!-- body footer共通部品を呼び出す -->
+	<div th:replace="common :: footer"></div>
+</body>
+</html>

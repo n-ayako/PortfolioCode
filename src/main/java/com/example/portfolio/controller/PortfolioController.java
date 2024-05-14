@@ -74,4 +74,13 @@ public class PortfolioController {
     public String displayPortfolio(Model model) {
         return "portfolio";
     }
+    
+    // /loginにGETリクエストがあった場合にportfolioを表示するメソッド
+    @GetMapping("/login")
+    public String login(Model model) {
+        return "login";
+    }
+    
+    
+    
 }

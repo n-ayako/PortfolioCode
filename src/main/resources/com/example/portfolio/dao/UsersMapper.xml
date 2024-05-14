@@ -13,5 +13,9 @@
         VALUES
             (#{name}, #{email}, #{password}, #{self_introduction}, CURRENT_TIMESTAMP,  CURRENT_TIMESTAMP)
     </insert>
+    
+    <select id="findByEmail">
+    	select * from users where email = #{email}
+    </select>
 
 </mapper>
