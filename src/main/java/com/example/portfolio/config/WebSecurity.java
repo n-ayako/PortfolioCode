@@ -24,10 +24,25 @@ public class WebSecurity {
                         ,"/portfolio")
                 .permitAll()
                 .anyRequest().authenticated()
-            );
-        // H2コンソール操作用
-        http.csrf().disable();
-        http.headers().frameOptions().disable();
+                    )
+                    .formLogin((login) -> login
+                        .usernameParameter("username")
+                        .passwordParameter("password")
+                        // ログインを実行するページ
+                        .loginProcessingUrl("/login")
+                        // ログイン画面
+                        .loginPage("/login")
+                        // ログイン失敗時のURL
+                        .failureUrl("/login?error")
+                        // ログインに成功した場合の遷移先
+                        .defaultSuccessUrl("/loginSuccess", true)
+                        // アクセス権
+                        .permitAll()
+
+                    )
+                    .logout((logout) -> logout
+                         // ログアウトした場合の遷移先
+                        .permitAll());
         
         return http.build();
     }
