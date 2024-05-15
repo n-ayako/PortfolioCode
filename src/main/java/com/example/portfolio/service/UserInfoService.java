@@ -1,10 +1,8 @@
 package com.example.portfolio.service;
 
-import java.util.List;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,28 +15,31 @@ import com.example.portfolio.entity.Users;
 @Transactional
 public class UserInfoService {
 
-    /**
-     * ユーザー情報 Mapper
-     */
-    @Autowired
-    private UsersMapper usersMapper;
+    private final UsersMapper usersMapper;
 
-    @Autowired
+    public UserInfoService(UsersMapper usersMapper) {
+        this.usersMapper = usersMapper;
+    }
+
+    @Autowired//
     private PasswordEncoder passwordEncoder;
+
+    //ユーザー認証
     
-    /**
-     * ユーザ情報登録
-     * @param userAddRequest リクエストデータ
-     * userAddRequestからパスワード取得、PasswordEncoderを使用して、取得したパスワードを安全な形式でエンコード
-     *エンコードされたパスワードをuserAddRequestオブジェクトに設定
-     *UsersMapperを使用して、エンコードされたパスワードを含むuserAddRequestオブジェクトをデータベースに保存
-     */
+    public Users getUserByUsername(String email) {
+    	// 引数を標準出力に表示する
+        System.out.println("Searching for user with email: " + email);
+        
+        return usersMapper.findByUsername(email);
+    }
+
+    //ユーザー新規登録    
     public void save(UserAddRequest userAddRequest) {
         String encodedPassword = passwordEncoder.encode(userAddRequest.getPassword());
         userAddRequest.setPassword(encodedPassword);
         usersMapper.save(userAddRequest);
     }
-
+    
 }
 
 

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;//コントローラーからビューにデータを渡す
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;//HTTPリクエストとコントローラーメソッドをマッピング
 import org.springframework.web.bind.annotation.RequestMethod;//列挙型の値を指定することで、特定のHTTPメソッドに対応するリクエストマッピング
 import org.springframework.web.bind.annotation.RequestParam;//HTTPリクエストのパラメーターをコントローラーメソッドの引数にバインド
@@ -26,7 +27,7 @@ public class PortfolioController {
 	//indexへのアクセスがあったらsigninにリダイレクトする
     
     @RequestMapping("/")
-    public String showLoginForm(Model model) {
+    public String formLogin(Model model) {
         //サインイン画面へ
         return "redirect:/signin";
     }
@@ -42,7 +43,7 @@ public class PortfolioController {
     * @return 登録画面
     */
     @GetMapping(value = "/signin")
-    public String displayAdd(Model model) {
+    public String signin(Model model) {
         model.addAttribute("userAddRequest", new UserAddRequest());
         return "/signin";
     }
@@ -69,9 +70,14 @@ public class PortfolioController {
         return "redirect:/portfolio";
     }
     
-    // /portfolioにGETリクエストがあった場合にportfolioを表示するメソッド
-    @GetMapping("/portfolio")
+    
+    // /portfolioにリクエストがあった場合にportfolioを表示するメソッド
+    @RequestMapping(value = "/Portfolio")
     public String displayPortfolio(Model model) {
         return "portfolio";
     }
+
+    
+
+    
 }

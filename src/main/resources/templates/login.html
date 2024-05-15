@@ -12,23 +12,22 @@
 			<div class="entry content">
 			<h2>ログイン</h2>
 				<div class="entry_form">
-					<form th:action="@{/login}" method="POST">
-						<!--エンドポイント/createに対してHTTP POSTリクエストを送信、userAddRequestオブジェクトのデータを送信し、saveメソッドで保存-->
+					<form th:action="@{/login}" th:method="post">
 						<div class="form_in">
 							<label for="emailInput">メールアドレス</label>
-							<input type="text" id="emailInput" class="form-field required autofocus">
+							<input type="text" id="emailInput" class="form-field required autofocus" th:value="*{email}">
 						</div>
 						<div class="form_in">
 							<label for="passwordInput">パスワード</label>
-							<input type="text" id="passwordInput" class="form-field required">
+							<input type="password" id="passwordInput" class="form-field required" th:value="*{password}">
 						</div>
 						<div class="form_in_btn">
 							<input type="submit" value="ログインする" class="entry_btn">
 						</div>
-						<div class="form_in_btn">
-							<input type="submit" value="新規登録する" class="entry_btn">
-						</div>
 					 </form>
+					 <div class="form_in_btn">
+						<input type="submit" onclick="window.location.href='/signin'" class="entry_btn" value="新規登録">
+					 </div>
 				 </div>
 				 
 			 </div>
