@@ -29,6 +29,15 @@ header.header{
 	justify-content: space-between;
 	margin: auto;
 }
+.header_container-login{
+	max-width: 1440px;
+	padding: 0px 40px 0px 40px;
+	height: 120px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin: auto;
+}
 h1{
 	font-size: 36px;
 	color: #fff;
