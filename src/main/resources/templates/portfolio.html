@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <!-- 共通header -->
 <head th:replace="common-logout :: meta_header('top',~{::link},~{::script})">
     <!-- (2)このページ固有で読み込むCSS/JSあれば以下に記載 -->
@@ -11,7 +11,8 @@
 		<section>
 			<div class="entry content">
 			<h2>自己紹介です</h2>
-
+			Welcome, <span th:text="${username}"></span>!
+			Welcome, <span th:text="'John Doe'"></span>!</p>
 			 </div>
 		 </section>
 	 </main>

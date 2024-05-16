@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;//コントローラーからビューにデータを渡す
 import org.springframework.web.bind.annotation.GetMapping;
@@ -77,5 +79,24 @@ public class PortfolioController {
         UserInfoService.save(userRequest);
         return "redirect:/portfolio";
     }
-    
+    /*　テストコード
+    //ログインしているユーザー名を取得
+    @GetMapping("/profile")
+    public String showProfile(Model model) {
+        // 認証されたユーザーの情報を取得
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        
+        // ユーザー名を取得
+        String username = authentication.getName();
+        
+        // ログにユーザー名を出力
+        System.out.println("Logged in user: " + username);
+        
+        // モデルにユーザー名をセットして、Thymeleafで表示
+        model.addAttribute("username", "テストユーザー");
+        
+        return "/portfolio"; // プロフィール表示用のThymeleafテンプレート名を返す
+    }
+    */
 }
+
