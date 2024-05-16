@@ -24,21 +24,32 @@ import org.springframework.validation.annotation.Validated;
 
 @Controller
 public class PortfolioController {
+	//ページの表示に関するもの
 	//indexへのアクセスがあったらsigninにリダイレクトする
-    
     @RequestMapping("/")
     public String formLogin(Model model) {
         //サインイン画面へ
-        return "redirect:/signin";
+        return "redirect:/login";
     }
     
+    // /portfolioにリクエストがあった場合にportfolioを表示するメソッド
+    @RequestMapping(value = "/portfolio")
+    public String displayPortfolio(Model model) {
+        return "portfolio";
+    }
+
+    // /portfolioにリクエストがあった場合にportfolioを表示するメソッド
+    @RequestMapping(value = "/login")
+    public String displaylogin(Model model) {
+        return "login";
+    }
 	
 	//クラスのインスタンスを自動的に生成し、他のクラスに依存関係として注入
     @Autowired
     private UserInfoService UserInfoService;
     
     /**
-    * ユーザー新規登録画面を表示
+    * ユーザー新規登録画面に関するもの
     * @param model Model
     * @return 登録画面
     */
@@ -69,15 +80,5 @@ public class PortfolioController {
         UserInfoService.save(userRequest);
         return "redirect:/portfolio";
     }
-    
-    
-    // /portfolioにリクエストがあった場合にportfolioを表示するメソッド
-    @RequestMapping(value = "/Portfolio")
-    public String displayPortfolio(Model model) {
-        return "portfolio";
-    }
-
-    
-
     
 }
