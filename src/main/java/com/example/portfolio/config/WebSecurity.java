@@ -20,10 +20,11 @@ public class WebSecurity {
     public WebSecurity(CustomAuthenticationProvider customAuthenticationProvider){
         this.customAuthenticationProvider = customAuthenticationProvider;
     }
-	
- // Loggerの取得
-    private static final Logger logger = LoggerFactory.getLogger(WebSecurity.class);
+
     @Bean
+    //http.authorizeRequests(認証が必要となるURLを設定する関数)
+    //antMatchers("〜").permitAll()は認証が不要の例外ページ
+    //anyRequest().authenticated();以外のページは認証された状態でいる必要があるもの
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
         // カスタム認証プロバイダを設定
@@ -34,28 +35,27 @@ public class WebSecurity {
         .csrf(csrf -> csrf.disable())
         .authorizeHttpRequests(authorizeRequests ->
             authorizeRequests
-                // loginのパスへのリクエストはすべて許可
-                .requestMatchers("/login","/login?error","/signin","/css/**","/create/**").permitAll()
-                 // その他のリクエストは認証が必要
-                .anyRequest().authenticated()
+        // 認証不要で誰でも見られるページ
+        .requestMatchers("/login","/login?error","/signin","/css/**","/create/**").permitAll()
+        // その他のリクエストは認証が必要
+       .anyRequest().authenticated()
         )
         .formLogin(formLogin -> 
         formLogin
-            // ログイン処理が呼び出される前のログメッセージ
-            .loginProcessingUrl("/login")
-            .loginPage("/login")
-            .successHandler((request, response, authentication) -> {
-                // ログイン成功時の処理
-                logger.info("Login successful: {}", authentication.getName());
-                response.sendRedirect("/portfolio"); // ログイン成功後のリダイレクト先
-            })
-            .failureHandler((request, response, exception) -> {
-                // ログイン失敗時の処理
-                logger.error("Login failed: {}", exception.getMessage());
-                response.sendRedirect("/login?error"); // ログイン失敗後のリダイレクト先
-            })
+        	.usernameParameter("username")//ユーザのパラメータ名 POSTされてきたinputのname
+        	.passwordParameter("password")//パスワードのパラメータ名 POSTされてきたinputのname
+            .loginProcessingUrl("/login")//ログイン画面のURL
+            .loginPage("/login")//ログイン画面のURL
+            .failureUrl("/login?error")// ログイン失敗時のURL
+            .defaultSuccessUrl("/portfolio", true)// ログインに成功した場合の遷移先
+            // アクセス権
             .permitAll()
-    );
+        )
+        
+            .logout((logout) -> logout
+            // ログアウトした場合の遷移先
+            .permitAll());
+        
         return http.build();
     }
     
