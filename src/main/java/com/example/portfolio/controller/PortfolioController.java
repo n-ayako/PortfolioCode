@@ -8,11 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;//コントローラーからビューにデータを渡す
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;//HTTPリクエストとコントローラーメソッドをマッピング
 import org.springframework.web.bind.annotation.RequestMethod;//列挙型の値を指定することで、特定のHTTPメソッドに対応するリクエストマッピング
-import org.springframework.web.bind.annotation.RequestParam;//HTTPリクエストのパラメーターをコントローラーメソッドの引数にバインド
-import org.springframework.web.servlet.ModelAndView;//ントローラーがビューにデータを渡す
 
 import com.example.portfolio.service.UserInfoService;
 import com.example.portfolio.dto.UserAddRequest;

@@ -24,12 +24,8 @@ public class UserInfoService {
     @Autowired//
     private PasswordEncoder passwordEncoder;
 
-    //ユーザー認証
-    
+    //ユーザー認証    
     public Users getUserByUsername(String email) {
-    	// 引数を標準出力に表示する
-        System.out.println("Searching for user with email: " + email);
-        
         return usersMapper.findByUsername(email);
     }
 

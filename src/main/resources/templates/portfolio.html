@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <!-- 共通header -->
-<head th:replace="common :: meta_header('top',~{::link},~{::script})">
+<head th:replace="common-logout :: meta_header('top',~{::link},~{::script})">
     <!-- (2)このページ固有で読み込むCSS/JSあれば以下に記載 -->
 </head>
 <body>
     <!-- body header共通部品を呼び出す -->
-    <div th:replace="common :: header"></div>
+    <div th:replace="common-logout :: header"></div>
 	<main>
 		<section>
 			<div class="entry content">
@@ -16,6 +16,6 @@
 		 </section>
 	 </main>
 	 <!-- body footer共通部品を呼び出す -->
-	<div th:replace="common :: footer"></div>
+	<div th:replace="common-logout :: footer"></div>
 </body>
 </html>

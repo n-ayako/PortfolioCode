@@ -36,7 +36,7 @@ public class WebSecurity {
         .authorizeHttpRequests(authorizeRequests ->
             authorizeRequests
         // 認証不要で誰でも見られるページ
-        .requestMatchers("/login","/login?error","/signin","/css/**","/create/**").permitAll()
+        .requestMatchers("/login","/login?error","/login?loguto", "/signin","/css/**","/create/**").permitAll()
         // その他のリクエストは認証が必要
        .anyRequest().authenticated()
         )
@@ -54,13 +54,14 @@ public class WebSecurity {
         
             .logout((logout) -> logout
             // ログアウトした場合の遷移先
+            .logoutUrl("/logout")//ここにアクセスするとログインアウトが走る
+            .logoutSuccessUrl("/login?logout")//
             .permitAll());
         
         return http.build();
     }
     
-    // @Beanをつけることで、このメソッドがSpringのコンテナにBeanとして登録される
-    @Bean
+    @Bean // @Beanをつけることで、このメソッドがSpringのコンテナにBeanとして登録される
     public UrlBasedCorsConfigurationSource corsConfigurationSource() {
         // CORSの設定を行うためのオブジェクトを生成
     	CorsConfiguration configuration = new CorsConfiguration();

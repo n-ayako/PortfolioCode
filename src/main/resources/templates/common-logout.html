@@ -17,21 +17,19 @@
     <header th:fragment="header" class="header">
 		<div class="header_container">
 	        <h1>My Portfolio</h1>
-			
 			<div>
-				<form th:action="@{/login}" method="post">
-					<button class="login_btn">ログイン</button>
+				<form th:action="@{/logout}" method="post">
+					<button class="login_btn">ログアウト</button>
 				</form>
 			</div>
 			
 			<!--認証状況でのリンク出しわけ　一旦保留-->
-			<!--
-			<div sec:authorize="isAuthenticated()">
-			    <form th:action="@{/login}" method="post">
+			<!--<div class="login_btn" sec:authorize="isAuthenticated()">
+			    <form th:action="@{/logout}" method="post">
 			        <button class="login_btn">ログアウト</button>
 			    </form>
 			</div>
-			<div sec:authorize="isAnonymous()">
+			<div class="login_btn" sec:authorize="isAnonymous()">
 			    <form th:action="@{/login}" method="post">
 			        <button class="login_btn">ログイン</button>
 			    </form>
