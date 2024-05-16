@@ -17,7 +17,7 @@
 		<div class="header_container">
 	        <h1>My Portfolio</h1>
 			<!--ログイン前の表示-->
-			<div th:unless="${loggedIn}"><a th:href="@{'/profile'}" class="login_btn">ログイン</a></divth:unless="${loggedIn}">
+			<div th:unless="${loggedIn}"><a th:href="@{'/login'}" class="login_btn">ログイン</a></divth:unless="${loggedIn}">
 			<!--ログイン後の表示-->
 			<!--<div th:if="${loggedIn}"><a th:href="@{'/login'}">ログアウト</a></>-->
 		</div>
