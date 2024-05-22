@@ -19,10 +19,14 @@ public interface UsersMapper {
      */
     void save(UserAddRequest userAddRequest);
     
-    //
     
-    //Usersを返すメソッド引数としてemailを受け取る
+    /**
+     * メールアドレスに基づいてユーザー情報を取得
+     * @param email メールアドレス
+     * @return ユーザー情報
+     */
     Users findByUsername(String email);
+    
 }
 
 
