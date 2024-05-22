@@ -36,7 +36,7 @@ public class WebSecurity {
         .authorizeHttpRequests(authorizeRequests ->
             authorizeRequests
         // 認証不要で誰でも見られるページ
-        .requestMatchers("/login","/login?error","/login?loguto", "/signin","/css/**","/create/**").permitAll()
+        .requestMatchers("/login","/login?error","/login?loguto", "/signin","/css/**","/create/**","img/**").permitAll()
         // その他のリクエストは認証が必要
        .anyRequest().authenticated()
         )
