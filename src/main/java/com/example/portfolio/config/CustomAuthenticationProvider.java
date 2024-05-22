@@ -12,8 +12,8 @@ import org.springframework.stereotype.Component;
 
 // @Componentをつけることで、このクラスがSpringのコンテナにBeanとして登録される
 @Component
-public class CustomAuthenticationProvider implements AuthenticationProvider{
-
+	public class CustomAuthenticationProvider implements AuthenticationProvider{
+	//Spring SecurityのAuthenticationProviderインターフェースを
 	//フィールドの宣言
     private final UserDetailsService userDetailsService; //認証プロセスで使用するユーザー情報
     private final PasswordEncoder passwordEncoder;//パスワードのエンコードと照合を行う
@@ -31,14 +31,17 @@ public class CustomAuthenticationProvider implements AuthenticationProvider{
         
         UserDetails userDetails = userDetailsService.loadUserByUsername(email); // emailを使用してユーザー情報を取得する
         
-        if (passwordEncoder.matches(inputPassword, userDetails.getPassword())) {
-            return new UsernamePasswordAuthenticationToken(email, inputPassword, userDetails.getAuthorities());
+        if (userDetails != null && passwordEncoder.matches(inputPassword, userDetails.getPassword())) {
+            return new UsernamePasswordAuthenticationToken(userDetails, inputPassword, userDetails.getAuthorities());
           //DBのハッシュ化されたパスワードと一致するかを確認
+            
         } else {
             throw new BadCredentialsException("Authentication failed");
             //スローすることで、認証が失敗したことを明示的に示す
         }
     }
+
+
     
 
     @Override

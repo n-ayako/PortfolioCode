@@ -3,6 +3,8 @@ package com.example.portfolio.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,11 +26,12 @@ public class UserInfoService {
     @Autowired//
     private PasswordEncoder passwordEncoder;
 
-    //ユーザー認証    
+    //ユーザー認証
     public Users getUserByUsername(String email) {
         return usersMapper.findByUsername(email);
     }
-
+   
+    
     //ユーザー新規登録    
     public void save(UserAddRequest userAddRequest) {
         String encodedPassword = passwordEncoder.encode(userAddRequest.getPassword());
@@ -36,10 +39,7 @@ public class UserInfoService {
         usersMapper.save(userAddRequest);
     }
     
+    
+    
+
 }
-
-
-
-
-
-
