@@ -29,7 +29,7 @@ public class CustomUserDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException("User not found: " + email);
         }
         Collection<? extends GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority("USER"));
-        return new CustomUserDetails(user.getEmail(), user.getPassword(), authorities, user.getName());
+        return new CustomUserDetails(user.getId(),user.getEmail(), user.getPassword(),user.getName(),user.getSelfIntroduction(), authorities);
     }
     
 }
