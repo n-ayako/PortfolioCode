@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!-- 共通header -->
+<head th:replace="common-logout :: meta_header('top',~{::link},~{::script})">
+    <!-- (2)このページ固有で読み込むCSS/JSあれば以下に記載 -->
+</head>
+<body>
+    <!-- body header共通部品を呼び出す -->
+    <div th:replace="common-logout :: header"></div>
+	<main>
+		<section>
+			<div class="container">
+				<div class="container-inner">
+					<div class="profile_edit_container">
+						<div class="profile_content">
+							<h2>自己紹介を編集する</h2>
+							<form th:action="@{/profile_edit}" autocomplete="off" 
+							    method="post" enctype="multipart/form-data" th:object="${userProfileEdit}">
+								<div class="form_in">
+									<label for="profileInput">自己紹介文</label>
+									<textarea th:text="${userProfileEdit.selfIntroduction}" th:field="*{selfIntroduction}" name="selfIntroduction"></textarea>
+									<p class="message_error" th:if="${#fields.hasErrors('selfIntroduction')}" th:errors="*{selfIntroduction}"></p>
+								</div>
+								<div class="form_in photo_input">
+									<label for="photoInput">アバター画像</label>
+									<!--<div class="photo_btn" role="button" tabindex="0"><button>画像ファイルを添付する</div>
+									<input type="file" name="photoInput">-->
+								</div>
+								<div class="form_in_btn">
+									<input type="submit" class="entry_btn" value="自己紹介を確定する">
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			 </div>
+		 </section>
+
+		 <section>
+			<div class="container">
+				<div class="container-inner">
+					<div class="study_container">
+						<h2>学習チャート</h2>
+						<button type="button" onclick="location.href='#'" class="entry_btn">編集する</button>
+					</div>
+				</div>
+			</div>			
+		 </section>
+	 </main>
+	 <!-- body footer共通部品を呼び出す -->
+	<div th:replace="common-logout :: footer"></div>
+	
+	<script>
+		const buttonElement = document.querySelector(".photo_input");
+		
+		buttonElement.addEventListener("click", () => {
+		  document.querySelector("input").click();
+		});
+		
+		// Space / Enter キーで click イベントを発火できるようにする
+		buttonElement.addEventListener("keydown", (event) => {
+		  if (!buttonElement.isEqualNode(event.target)) {
+		    return;
+		  }
+		
+		  if (event.keyCode === 32 || event.keyCode === 13) {
+		    event.preventDefault();
+		    document.querySelector("input").click();
+		  }
+		});
+	</script>
+</body>
+</html>
