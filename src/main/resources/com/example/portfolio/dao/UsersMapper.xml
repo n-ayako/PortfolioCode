@@ -19,5 +19,20 @@
     <select id="findByUsername" resultType="com.example.portfolio.entity.Users" parameterType="string">
         SELECT * FROM users WHERE email = #{email}
     </select>
+    
+    <!-- idから情報を検索 -->
+    <select id="createUserProfileEdit" resultType="com.example.portfolio.dto.UserProfileEdit" parameterType="java.lang.Long">
+		SELECT *
+		FROM users
+		WHERE id = #{id}
+	</select>
+	
+	<!-- プロフィール更新 -->
+	<update id="updateProfile" parameterType="com.example.portfolio.dto.UserProfileEdit">
+	    UPDATE users
+	    SET self_introduction = #{selfIntroduction}
+	    WHERE id = #{id}
+	</update>
 
+	
 </mapper>
