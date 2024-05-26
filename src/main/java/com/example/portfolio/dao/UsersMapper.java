@@ -25,6 +25,8 @@ public interface UsersMapper {
      */
     Users findByUsername(String email);
     
+    CustomUserDetails findById(long id);
+    
     public Optional<UserProfileEdit> createUserProfileEdit(long id);
 	
     public int updateProfile(UserProfileEdit userProfileEdit);
