@@ -9,18 +9,22 @@ import java.util.Collection;
 
 public class CustomUserDetails implements UserDetails {  // CustomUserDetailsクラスがUserクラスを拡張
 	
-    private Long id;
+	private static final long serialVersionUID = 1L;
+	
+	private Long id;
     private String email;
     private String password;
-    private Collection<? extends GrantedAuthority> authorities;
     private String name;
-		
-    public CustomUserDetails(String email, String password, Collection<? extends GrantedAuthority> authorities, String name) {
+    private String selfIntroduction;
+    private Collection<? extends GrantedAuthority> authorities;
+
+    public CustomUserDetails( Long id,String email, String password, String name,String selfIntroduction, Collection<? extends GrantedAuthority> authorities) {
+        this.id = id;
         this.email = email;
         this.password = password;
-        this.authorities = authorities;
         this.name = name;
-        
+        this.selfIntroduction = selfIntroduction;
+        this.authorities = authorities;
     }
     
     @Override
@@ -68,6 +72,15 @@ public class CustomUserDetails implements UserDetails {  // CustomUserDetailsク
         this.name = name;
     }
     public Long getId() {
-        return this.id;
+        return id;
     }
+    public void setId(Long id) {
+        this.id = id;
+    }
+	public String getSelfIntroduction() {
+		return selfIntroduction;
+	}
+	public void setSelfIntroduction(String selfIntroduction) {
+		this.selfIntroduction = selfIntroduction;
+	}
 }
