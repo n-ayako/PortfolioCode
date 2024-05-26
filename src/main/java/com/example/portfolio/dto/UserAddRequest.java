@@ -24,5 +24,16 @@ public class UserAddRequest implements Serializable {
 	    
 	    @Pattern(regexp="^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]{8,}$", message = "※英数字8文字以上で入力してください")
 	    private String password;
-	    private String self_introduction;
+	    // dbに初期値が設定できないためバリデーション時にdbに初期値を登録
+	    private String selfIntroduction = "デフォルトの自己紹介文";
+
+	    // コンストラクタ
+	    public UserAddRequest() {
+	        // デフォルト値の設定
+	        this.selfIntroduction = "デフォルトの自己紹介文";
+	    }
+	    public String getSelfIntroduction() {
+	        return this.selfIntroduction;
+	    }
+
 	}
