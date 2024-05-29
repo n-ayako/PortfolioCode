@@ -2,6 +2,8 @@ package com.example.portfolio.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -29,6 +31,7 @@ import com.example.portfolio.auth.CustomUserDetails;
 import com.example.portfolio.dao.UsersMapper;
 import com.example.portfolio.dto.UserAddRequest;
 import com.example.portfolio.dto.UserProfileEdit;
+import com.example.portfolio.dto.UserSkillEdit;
 
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
@@ -183,6 +186,30 @@ public class PortfolioController {
         return "redirect:/portfolio"; // 更新が成功したらportfolioにリダイレクト
     }
 
+    
+    @GetMapping(value = "/skill_edit")
+    public String getUserSkills(@AuthenticationPrincipal CustomUserDetails user, Model model) {
+        List<UserSkillEdit> skills = UserInfoService.skillInfo(user);
+
+        // CategoryNameごとにグループ化
+        Map<String, List<UserSkillEdit>> skillsByCategory = skills.stream()
+            .collect(Collectors.groupingBy(UserSkillEdit::getCategoryName));
+        
+        for (UserSkillEdit skill : skills) {
+            System.out.println("ID: " + skill.getId());
+            System.out.println("カテゴリ: " + skill.getCategoryName());
+            System.out.println("カテゴリ: " + skill.getLearningDataName());
+            System.out.println("カテゴリ: " + skill.getStudyTime());
+        }
+
+        // モデルに追加
+        model.addAttribute("skillsByCategory", skillsByCategory);
+
+        return "skill_edit"; // userSkills.htmlというテンプレートを表示
+    }
+
+    
+    
 }
 
 
