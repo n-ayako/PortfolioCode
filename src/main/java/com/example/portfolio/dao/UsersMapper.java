@@ -1,5 +1,6 @@
 package com.example.portfolio.dao;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -7,6 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 import com.example.portfolio.auth.CustomUserDetails;
 import com.example.portfolio.dto.UserAddRequest;
 import com.example.portfolio.dto.UserProfileEdit;
+import com.example.portfolio.dto.UserSkillEdit;
 import com.example.portfolio.entity.Users;
 
 @Mapper
@@ -30,6 +32,8 @@ public interface UsersMapper {
     public Optional<UserProfileEdit> createUserProfileEdit(long id);
 	
     public int updateProfile(UserProfileEdit userProfileEdit);
+    
+    public List<UserSkillEdit> createUserSkillEdit(long id);
     
 }
 
