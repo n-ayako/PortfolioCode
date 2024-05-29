@@ -9,7 +9,7 @@ public class UserSkillEdit {
 	private long id;
     private String categoryName;
     private String learningDataName;
-    private String studyTime;
+    private int studyTime;
     
     // ゲッターとセッター
     public Long getId() {
@@ -36,11 +36,11 @@ public class UserSkillEdit {
         this.learningDataName = learningDataName;
     }
     
-    public String getStudyTime() {
+    public int getStudyTime() {
         return studyTime;
     }
 
-    public void setStudyTime(String studyTime) {
+    public void setStudyTime(int studyTime) {
         this.studyTime = studyTime;
     }
 

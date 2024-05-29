@@ -191,10 +191,6 @@ public class PortfolioController {
     public String getUserSkills(@AuthenticationPrincipal CustomUserDetails user, Model model) {
         List<UserSkillEdit> skills = UserInfoService.skillInfo(user);
 
-        // CategoryNameごとにグループ化
-        Map<String, List<UserSkillEdit>> skillsByCategory = skills.stream()
-            .collect(Collectors.groupingBy(UserSkillEdit::getCategoryName));
-        
         for (UserSkillEdit skill : skills) {
             System.out.println("ID: " + skill.getId());
             System.out.println("カテゴリ: " + skill.getCategoryName());
@@ -203,7 +199,7 @@ public class PortfolioController {
         }
 
         // モデルに追加
-        model.addAttribute("skillsByCategory", skillsByCategory);
+        model.addAttribute("skills", skills);
 
         return "skill_edit"; // userSkills.htmlというテンプレートを表示
     }

@@ -37,7 +37,7 @@
 	<!-- スキル編集用のデータ取得 -->
 	<select id="createUserSkillEdit" resultType="com.example.portfolio.dto.UserSkillEdit" parameterType="java.lang.Long">
 		SELECT
-			users.id AS user_id,
+			users.id AS id,
 			categories.name AS category_name,
 			learning_data.name AS learning_data_name,
 			learning_data.study_time
