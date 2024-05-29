@@ -1,5 +1,6 @@
 package com.example.portfolio.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.apache.catalina.mapper.Mapper;
@@ -14,6 +15,7 @@ import com.example.portfolio.auth.CustomUserDetails;
 import com.example.portfolio.dao.UsersMapper;
 import com.example.portfolio.dto.UserAddRequest;
 import com.example.portfolio.dto.UserProfileEdit;
+import com.example.portfolio.dto.UserSkillEdit;
 import com.example.portfolio.entity.Users;
 
 import jakarta.validation.Valid;
@@ -37,7 +39,6 @@ public class UserInfoService {
         return usersMapper.findByUsername(email);
     }
    
-    
     //ユーザー新規登録    
     public void save(UserAddRequest userAddRequest) {
         String encodedPassword = passwordEncoder.encode(userAddRequest.getPassword());
@@ -47,11 +48,8 @@ public class UserInfoService {
     
     //最新のユーザー情報を取得する
 
-    
     //プロフィール更新
-    //写真の追加の際はここに写真の情報を追記する
 	private CustomUserDetails user;
-	
     public UserProfileEdit ProfileInfo(CustomUserDetails user) {
 		// ユーザーオブジェクトをフィールドに保持
 		this.user = user;
@@ -74,5 +72,10 @@ public class UserInfoService {
 	    }
 	}
     
+	public List<UserSkillEdit> skillInfo(CustomUserDetails user) {
+	    // ユーザーの情報を取得
+	    return usersMapper.createUserSkillEdit(user.getId());
+	}
+
 
 }
