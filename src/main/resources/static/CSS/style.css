@@ -110,6 +110,7 @@ h1{
 	font-size:12px;
 	color: red;
 }
+
 /* ポートフォリオ */
 .portfolio_container{
 	display: flex;
@@ -196,6 +197,76 @@ h1{
 	border-top: none;
 	border-left: none;
 	border-right: none;
+}
+/* スキル編集 */
+.skill_month{
+	margin-top: 50px;
+}
+.skill_month .month{
+    padding: 8px 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+.skill_content{
+	border: 1px solid #ddd;
+	padding: 40px;
+	margin-top: 50px;
+	border-radius: 8px;
+}
+.skill_content .keep_btn{
+	background-color: #fff;
+	border: 1px solid #1B5678;
+	border-radius: 4px;
+	color: #1B5678;
+	padding: 8px 16px;
+	cursor: pointer;
+}
+.skill_content .delete_btn{
+	background-color: #EE6969;
+	border: 1px solid #EE6969;
+	border-radius: 4px;
+	color: #fff;
+	padding: 8px 16px;
+	cursor: pointer;
+}
+.slill_item{
+	border: 1px solid #ddd;
+	border-radius: 8px;
+	box-shadow: 0px 2px 2px 0px #00000024;
+}
+.skill_menu{
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+.skill_edit_container h2{
+	font-size: 36px;
+    padding: 5px 0;
+    margin: 0px 0px 30px;
+	border-bottom: solid 1px #6c6c6c;
+	width: 360px;
+}
+.skill_item table{
+	border-collapse: collapse;
+	width: 100%;
+	text-align:left;
+}
+.skill_item table th,.skill_item table td{
+	border-bottom: 1px solid #ddd;
+  padding: 15px;
+}
+.skill_item{
+	border:1px solid #ddd;
+	border-radius: 4px;
+}
+.skill_time{
+	padding: 8px 16px;
+	border-radius: 4px;
+	border: 1px solid #ddd;
+	width:150px;
+}
+.category_name{
+	width: 30%;
 }
 /* フッター */
 footer{
