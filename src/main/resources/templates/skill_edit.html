@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!-- 共通header -->
+<head th:replace="common-logout :: meta_header('top',~{::link},~{::script})">
+    <!-- (2)このページ固有で読み込むCSS/JSあれば以下に記載 -->
+</head>
+<body>
+    <!-- body header共通部品を呼び出す -->
+    <div th:replace="common-logout :: header"></div>
+	<main>
+		<section>
+			<div class="container">
+				<div class="container-inner">
+					<div class="skill_edit_container">
+						<div class="skill_month">
+							<select name="example" class="month">
+								<option>1月</option>
+								<option>2月</option>
+								<option>3月</option>
+								<option>4月</option>
+							</select>
+						</div>
+						<div class="skill_content" th:each="entry : ${skillsByCategory}">
+						    <div class="skill_menu">
+								<h2 th:text="${entry.key}"></h2>
+						        <button class="entry_btn">項目を追加する</button>
+						    </div>
+						    <div class="skill_item">
+						        <table>
+						            <thead>
+						                <tr>
+						                    <th>項目名</th>
+						                    <th>学習時間</th>
+						                    <th></th>
+						                    <th></th>
+						                </tr>
+						            </thead>
+						            <tbody>
+						                <tr th:each="skill : ${entry.value}">
+						                    <td th:text="${skill.learningDataName}" class="category_name"></td>
+						                    <td>
+												<input type="number" th:value="${skill.studyTime}" name="learningTime" min="0" class="skill_time">
+						                    </td>
+						                    <td>
+						                        <button class="keep_btn">学習時間を保存する</button>
+						                    </td>
+						                    <td>
+						                        <button class="delete_btn">削除する</button>
+						                    </td>
+						                </tr>
+						            </tbody>
+						        </table>
+						    </div>
+							
+						</div>
+					</div>
+				</div>
+			 </div>
+		 </section>
+	 </main>
+	 <!-- body footer共通部品を呼び出す -->
+	<div th:replace="common-logout :: footer"></div>
+	
+	<script>
+		const buttonElement = document.querySelector(".photo_input");
+		
+		buttonElement.addEventListener("click", () => {
+		  document.querySelector("input").click();
+		});
+		
+		// Space / Enter キーで click イベントを発火できるようにする
+		buttonElement.addEventListener("keydown", (event) => {
+		  if (!buttonElement.isEqualNode(event.target)) {
+		    return;
+		  }
+		
+		  if (event.keyCode === 32 || event.keyCode === 13) {
+		    event.preventDefault();
+		    document.querySelector("input").click();
+		  }
+		});
+	</script>
+</body>
+</html>
