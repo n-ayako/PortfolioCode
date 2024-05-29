@@ -18,7 +18,6 @@
 			}
 		}
 	},
-	"virtual-models": {"mysql8-18f60d54cf9-cb0e73742a766f0":{"portfolio_db":{":learning_data":{"properties":{"ref-panel-associations":[{"ref":false,"entity":"portfolio_db.users","name":"learning_data_ibfk_2"}]}}}}},
 	"connection-types": {
 		"dev": {
 			"name": "開発",
