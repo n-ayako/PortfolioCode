@@ -44,4 +44,3 @@ public class UserProfileEdit implements Serializable{
 	    this.name = name;
 	}
 }
-
