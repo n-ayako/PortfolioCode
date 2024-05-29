@@ -185,7 +185,7 @@ public class PortfolioController {
         model.addAttribute("notice", "処理が正常に完了しました。");
         return "redirect:/portfolio"; // 更新が成功したらportfolioにリダイレクト
     }
-
+    
     
     @GetMapping(value = "/skill_edit")
     public String getUserSkills(@AuthenticationPrincipal CustomUserDetails user, Model model) {
