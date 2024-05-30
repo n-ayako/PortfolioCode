@@ -11,7 +11,8 @@
 	<main>
 		<section>
 			<div class="container">
-				<div class="container-inner">
+
+					
 					<div class="skill_edit_container">
 						<div class="skill_month">
 							<select name="example" class="month">
@@ -23,11 +24,10 @@
 						</div>
 						<div class="skill_content" th:each="skill, iterStat : ${skills}">
 							<div th:if="${iterStat.index == 0 or skill.categoryName != skills[iterStat.index - 1].categoryName}" class="skill_menu">
-
 									<h2 th:text="${skill.categoryName}"></h2>
 						        <button class="entry_btn">項目を追加する</button>
 						    </div>
-						    <div class="skill_item">
+						    <div class="skill_item"	th:if="${iterStat.index == 0 or skill.categoryName != skills[iterStat.index - 1].categoryName}">
 						        <table>
 						            <thead>
 						                <tr>
@@ -38,7 +38,7 @@
 						                </tr>
 						            </thead>
 						            <tbody>
-						                <tr>
+										<tr>
 						                    <td th:text="${skill.learningDataName}" class="category_name"></td>
 						                    <td>
 												<input type="number" th:value="${skill.studyTime}" name="learningTime" min="0" class="skill_time">
