@@ -1,16 +1,23 @@
 package com.example.portfolio.dao;
 
 import java.util.List;
+import java.util.Locale.Category;
+import java.util.Map;
 import java.util.Optional;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.example.portfolio.auth.CustomUserDetails;
 import com.example.portfolio.dto.UserAddRequest;
 import com.example.portfolio.dto.UserProfileEdit;
 import com.example.portfolio.dto.UserSkillEdit;
+import com.example.portfolio.dto.UserSkillNew;
+import com.example.portfolio.entity.Categories;
+import com.example.portfolio.entity.LearningData;
 import com.example.portfolio.entity.Users;
 
+//データベース操作を行うためのメソッドを入れる
 @Mapper
 public interface UsersMapper {
 	
@@ -35,6 +42,11 @@ public interface UsersMapper {
     
     public List<UserSkillEdit> createUserSkillEdit(long id);
     
+    void insertLearningData(UserSkillNew userSkillNew);
+    
+    public List<UserSkillNew> selectByCategoryId(String categoryId);
+    
+    public int countByMonthAndLearningDataName(UserSkillNew userSkillNew);
 }
 
 

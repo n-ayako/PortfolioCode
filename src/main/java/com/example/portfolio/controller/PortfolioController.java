@@ -1,6 +1,7 @@
 package com.example.portfolio.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -20,6 +21,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;//HTTPリクエストとコントローラーメソッドをマッピング
 import org.springframework.web.bind.annotation.RequestMethod;//列挙型の値を指定することで、特定のHTTPメソッドに対応するリクエストマッピング
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.portfolio.service.UserInfoService;
 
@@ -32,8 +35,10 @@ import com.example.portfolio.dao.UsersMapper;
 import com.example.portfolio.dto.UserAddRequest;
 import com.example.portfolio.dto.UserProfileEdit;
 import com.example.portfolio.dto.UserSkillEdit;
+import com.example.portfolio.dto.UserSkillNew;
 
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 
@@ -124,7 +129,7 @@ public class PortfolioController {
         } catch (Exception e) {
             // エラーメッセージをログに出力
             System.out.println("Login error: " + e.getMessage());
-            model.addAttribute("loginError", "自動ログインに失敗しました: " + e.getMessage());
+            model.addAttribute("loginError", "ログインに失敗しました: " + e.getMessage());
             return "/signin";
         }
 
@@ -145,7 +150,9 @@ public class PortfolioController {
         return "portfolio";
     }
     
+    
     @GetMapping("/profile_edit")
+    //認証されたユーザーの詳細を取得(CustomUserDetailsには認証されたユーザーの情報が入っている）
     public String getProfilePage(@AuthenticationPrincipal CustomUserDetails user, Model model) {
         // ユーザーの個人情報を取得
     	UserProfileEdit form = UserInfoService.ProfileInfo(user);
@@ -186,29 +193,97 @@ public class PortfolioController {
         return "redirect:/portfolio"; // 更新が成功したらportfolioにリダイレクト
     }
     
-    
+
+    //スキル編集ページ
     @GetMapping(value = "/skill_edit")
     public String getUserSkills(@AuthenticationPrincipal CustomUserDetails user, Model model) {
         List<UserSkillEdit> skills = UserInfoService.skillInfo(user);
 
-        // CategoryNameごとにグループ化
-        Map<String, List<UserSkillEdit>> skillsByCategory = skills.stream()
-            .collect(Collectors.groupingBy(UserSkillEdit::getCategoryName));
+     // CategoryIdごとにグループ化
+        Map<Integer, List<UserSkillEdit>> skillsByCategory = skills.stream()
+                .collect(Collectors.groupingBy(UserSkillEdit::getCategoryId));
         
-        for (UserSkillEdit skill : skills) {
-            System.out.println("ID: " + skill.getId());
-            System.out.println("カテゴリ: " + skill.getCategoryName());
-            System.out.println("カテゴリ: " + skill.getLearningDataName());
-            System.out.println("カテゴリ: " + skill.getStudyTime());
-        }
-
-        // モデルに追加
         model.addAttribute("skillsByCategory", skillsByCategory);
-
         return "skill_edit"; // userSkills.htmlというテンプレートを表示
     }
 
     
+    @GetMapping("/skill_new")
+    public String showNewSkillDataForm(@RequestParam("categoryId") Integer categoryId,@RequestParam("categoryName") String categoryName,
+            @AuthenticationPrincipal CustomUserDetails user,
+            Model model) {
+        // categoryIdをモデルに追加
+        model.addAttribute("categoryId", categoryId);
+        model.addAttribute("categoryName", categoryName);
+
+        // ユーザー情報をモデルに追加
+        model.addAttribute("user", user);
+        
+        // 必要な他のデータをモデルに追加
+        model.addAttribute("userSkillNew", new UserSkillNew());
+
+        return "skill_new"; // new_skill_data.htmlというテンプレートを表示
+    }
+    
+    @PostMapping("/save_new_skill")
+    public String saveNewSkill(@AuthenticationPrincipal CustomUserDetails user,
+            @RequestParam("categoryId") Integer categoryId,
+            @RequestParam("categoryName") String categoryName,
+            @Validated @ModelAttribute UserSkillNew userSkillNew,
+            BindingResult result,
+            Model model) {
+    	
+        // バリデーションエラーの数をログに出力
+        System.out.println("Errors count: " + result.getErrorCount());
+        
+        // フィールドごとのエラーメッセージをログに出力
+        List<FieldError> fieldErrors = result.getFieldErrors();
+        for (FieldError error : fieldErrors) {
+            System.out.println("Field: " + error.getField() + ", Message: " + error.getDefaultMessage());
+        }
+
+        // 入力チェックエラーの場合
+        if (result.hasErrors()) {
+            List<String> errorList = new ArrayList<String>();
+            for (ObjectError error : result.getAllErrors()) {
+                errorList.add(error.getDefaultMessage());
+            }
+            
+            System.out.println("Errors count: " + result.getErrorCount());
+            
+            model.addAttribute("validationError", errorList);
+            model.addAttribute("categoryId", categoryId);
+            model.addAttribute("categoryName", categoryName);
+            return "skill_new"; // 入力フォームに戻る
+        }
+        
+        // 重複チェック
+        if (UserInfoService.isDuplicate(userSkillNew)) {
+            // 重複がある場合の処理
+            model.addAttribute("duplicateError", "エラー.");
+            model.addAttribute("categoryId", categoryId);
+            return "skill_new"; // 入力フォームに戻る
+        }
+        
+        /*
+        // 重複チェック
+        String learningDataName = userSkillNew.getLearningDataName();
+        Date month = userSkillNew.getMonth(); // monthが存在することを前提としています
+        
+        // 同じ月に同じ名前の学習データが既に存在するかを確認
+        if (UserInfoService.learningDataNameExists(user.getId(), categoryId, learningDataName, month)) {
+            // エラーメッセージを設定してバリデーションエラーを返す
+            result.rejectValue("learningDataName", "duplicate.learningDataName", "入力した項目名は既に使用されています。");
+        */
+        
+        userSkillNew.setUserId(user.getId());
+        
+        //保存する処理
+        UserInfoService.insertLearningData(userSkillNew);
+
+        return "redirect:/skill_edit";
+    }
+
     
 }
 

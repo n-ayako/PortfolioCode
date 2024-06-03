@@ -22,8 +22,10 @@
 						</div>
 						<div class="skill_content" th:each="entry : ${skillsByCategory}">
 						    <div class="skill_menu">
-								<h2 th:text="${entry.key}"></h2>
-						        <button class="entry_btn">項目を追加する</button>
+								<h2 th:text="${entry.value[0].categoryName}"></h2>
+								<a th:href="@{/skill_new(categoryId=${entry.key}, categoryName=${entry.value[0].categoryName})}">
+								    <button class="entry_btn">項目を追加する</button>
+								</a>
 						    </div>
 						    <div class="skill_item">
 						        <table>
@@ -51,7 +53,6 @@
 						            </tbody>
 						        </table>
 						    </div>
-							
 						</div>
 					</div>
 				</div>
@@ -60,25 +61,5 @@
 	 </main>
 	 <!-- body footer共通部品を呼び出す -->
 	<div th:replace="common-logout :: footer"></div>
-	
-	<script>
-		const buttonElement = document.querySelector(".photo_input");
-		
-		buttonElement.addEventListener("click", () => {
-		  document.querySelector("input").click();
-		});
-		
-		// Space / Enter キーで click イベントを発火できるようにする
-		buttonElement.addEventListener("keydown", (event) => {
-		  if (!buttonElement.isEqualNode(event.target)) {
-		    return;
-		  }
-		
-		  if (event.keyCode === 32 || event.keyCode === 13) {
-		    event.preventDefault();
-		    document.querySelector("input").click();
-		  }
-		});
-	</script>
 </body>
 </html>

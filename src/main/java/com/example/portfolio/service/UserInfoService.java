@@ -1,6 +1,8 @@
 package com.example.portfolio.service;
 
 import java.util.List;
+import java.util.Locale.Category;
+import java.util.Map;
 import java.util.Optional;
 
 import org.apache.catalina.mapper.Mapper;
@@ -16,6 +18,8 @@ import com.example.portfolio.dao.UsersMapper;
 import com.example.portfolio.dto.UserAddRequest;
 import com.example.portfolio.dto.UserProfileEdit;
 import com.example.portfolio.dto.UserSkillEdit;
+import com.example.portfolio.dto.UserSkillNew;
+import com.example.portfolio.entity.LearningData;
 import com.example.portfolio.entity.Users;
 
 import jakarta.validation.Valid;
@@ -72,10 +76,26 @@ public class UserInfoService {
 	    }
 	}
     
+	//スキル表示
 	public List<UserSkillEdit> skillInfo(CustomUserDetails user) {
-	    // ユーザーの情報を取得
+	    // ユーザーIdからスキルの情報を取得
 	    return usersMapper.createUserSkillEdit(user.getId());
 	}
+	
+	
+    public List<UserSkillNew> getDataByCategoryId(String CategoryId) {
+        return usersMapper.selectByCategoryId(CategoryId);
+    }
+	
+    
+    public void insertLearningData(UserSkillNew userSkillNew) {
+        usersMapper.insertLearningData(userSkillNew);
+    }
+    
+    public boolean isDuplicate(UserSkillNew userSkillNew) {
+        int count = usersMapper.countByMonthAndLearningDataName(userSkillNew);
+        return count > 0;
+    }
 
-
+	
 }

@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
         
-<!--マッパーインターフェースとSQLステートメントを関連付け-->
+<!--Mybatisを使用してMapperインターフェースとSQLを関連付け-->
 <mapper namespace="com.example.portfolio.dao.UsersMapper">
 
     <!-- 新規登録のSQL文 -->
@@ -37,14 +37,33 @@
 	<!-- スキル編集用のデータ取得 -->
 	<select id="createUserSkillEdit" resultType="com.example.portfolio.dto.UserSkillEdit" parameterType="java.lang.Long">
 		SELECT
-			users.id AS user_id,
+			users.id,
+			categories.id AS category_id,
 			categories.name AS category_name,
 			learning_data.name AS learning_data_name,
-			learning_data.study_time
+			learning_data.study_time,
+			learning_data.month
 		FROM users
 		INNER JOIN learning_data ON users.id = learning_data.user_id
 		INNER JOIN categories ON learning_data.category_id = categories.id
 		WHERE users.id = #{id}
 	</select>
+	
+	<!--重複チェック-->
+	<select id="countByMonthAndLearningDataName" resultType="int" parameterType="com.example.portfolio.dto.UserSkillNew">
+	    SELECT COUNT(*) FROM learning_data
+	    WHERE month = #{month}
+	    AND name = #{learningDataName}
+	</select>
+	
+	<!-- スキル項目追加 -->
+	<insert id="insertLearningData" parameterType="map">
+	    INSERT INTO learning_data (name, study_time, category_id, user_id, month, updated_at, created_at)
+	    VALUES (#{learningDataName}, #{studyTime}, #{categoryId}, #{userId}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+	</insert>
+
+    
+
+	
 	
 </mapper>

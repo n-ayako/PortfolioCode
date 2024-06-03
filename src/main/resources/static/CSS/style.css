@@ -268,6 +268,20 @@ h1{
 .category_name{
 	width: 30%;
 }
+/*スキル追加*/
+.skill_new_container{
+	padding: 50px 0px;
+	width: 480px;
+	margin:auto;
+}
+.skill_new_content .data_input{
+	width: 100%;
+	border-right: none;
+	border-left: none;
+	border-top: none;
+	margin-bottom:5px;
+}
+
 /* フッター */
 footer{
 	box-sizing: border-box;
