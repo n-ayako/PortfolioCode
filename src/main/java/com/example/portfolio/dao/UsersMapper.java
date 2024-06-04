@@ -45,8 +45,8 @@ public interface UsersMapper {
     void insertLearningData(UserSkillNew userSkillNew);
     
     public List<UserSkillNew> selectByCategoryId(String categoryId);
-    
-    public int countByMonthAndLearningDataName(UserSkillNew userSkillNew);
+
+    int isDuplicate(UserSkillNew userSkillNew);
 }
 
 
