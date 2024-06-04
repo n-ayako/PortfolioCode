@@ -279,9 +279,14 @@ h1{
 	border-right: none;
 	border-left: none;
 	border-top: none;
-	margin-bottom:5px;
+	margin-bottom:20px;
 }
-
+.skill_new_container h2{
+	text-align: center;
+	font-size: 36px;
+	padding-bottom: 50px;
+	font-weight: 400;
+}
 /* フッター */
 footer{
 	box-sizing: border-box;
