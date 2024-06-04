@@ -50,10 +50,9 @@
 	</select>
 	
 	<!--重複チェック-->
-	<select id="countByMonthAndLearningDataName" resultType="int" parameterType="com.example.portfolio.dto.UserSkillNew">
-	    SELECT COUNT(*) FROM learning_data
-	    WHERE month = #{month}
-	    AND name = #{learningDataName}
+	<select id="isDuplicate" resultType="int" parameterType="com.example.portfolio.dto.UserSkillNew">
+		SELECT COUNT(*) FROM learning_data
+    	WHERE name = #{learningDataName} AND category_id = #{categoryId}
 	</select>
 	
 	<!-- スキル項目追加 -->
