@@ -16,14 +16,15 @@
                             <form th:action="@{/save_new_skill}" th:object="${userSkillNew}" method="post">
                                 <input type="hidden" th:value="${categoryId}" name="categoryId"/>
 								<input type="hidden" th:value="${categoryName}" name="categoryName"/>
-                                <div class="form_in">
+								<div class="form_in">
                                     <label for="learningDataName">項目名</label>
-                                    <input class="data_input" type="text" id="learningDataName" th:field="*{learningDataName}" required/>
+                                    <input class="data_input" type="text" id="learningDataName" th:field="*{learningDataName}"/>
                                     <p class="message_error" th:if="${#fields.hasErrors('learningDataName')}" th:errors="*{learningDataName}"></p>
+									<p class="message_error" th:if="${duplicateError}" th:text="${duplicateError}"></p>
                                 </div>
                                 <div class="form_in">
                                     <label for="studyTime">学習時間</label>
-                                    <input class="data_input" type="number" id="studyTime" th:field="*{studyTime}" min="0" required/>
+                                    <input class="data_input" type="number" id="studyTime" th:field="*{studyTime}"/>
                                     <p class="message_error" th:if="${#fields.hasErrors('studyTime')}" th:errors="*{studyTime}"></p>
                                 </div>
                                 <div class="form_in_btn">
@@ -38,5 +39,6 @@
      </main>
      <!-- body footer共通部品を呼び出す -->
     <div th:replace="common-logout :: footer"></div>
+	<!--日付をセットする-->
 </body>
 </html>
