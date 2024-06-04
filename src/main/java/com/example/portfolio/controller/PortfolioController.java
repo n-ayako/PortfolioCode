@@ -233,6 +233,20 @@ public class PortfolioController {
             BindingResult result,
             Model model) {
     	
+        // 重複チェック
+        boolean isDuplicate = UserInfoService.isDuplicate(userSkillNew);
+        if (isDuplicate) {
+            // 重複がある場合の処理
+        	//項目名を取得
+        	String learningDataName = userSkillNew.getLearningDataName();
+        	model.addAttribute("duplicateError", learningDataName + "は既に登録されています");
+            model.addAttribute("categoryId", categoryId);
+            model.addAttribute("categoryName", categoryName);
+            model.addAttribute("categoryName", categoryName);
+            model.addAttribute("learningDataName", learningDataName);
+            return "skill_new"; // 入力フォームに戻る
+        }
+    	
         // バリデーションエラーの数をログに出力
         System.out.println("Errors count: " + result.getErrorCount());
         
@@ -257,24 +271,9 @@ public class PortfolioController {
             return "skill_new"; // 入力フォームに戻る
         }
         
-        // 重複チェック
-        if (UserInfoService.isDuplicate(userSkillNew)) {
-            // 重複がある場合の処理
-            model.addAttribute("duplicateError", "エラー.");
-            model.addAttribute("categoryId", categoryId);
-            return "skill_new"; // 入力フォームに戻る
-        }
         
-        /*
-        // 重複チェック
-        String learningDataName = userSkillNew.getLearningDataName();
-        Date month = userSkillNew.getMonth(); // monthが存在することを前提としています
-        
-        // 同じ月に同じ名前の学習データが既に存在するかを確認
-        if (UserInfoService.learningDataNameExists(user.getId(), categoryId, learningDataName, month)) {
-            // エラーメッセージを設定してバリデーションエラーを返す
-            result.rejectValue("learningDataName", "duplicate.learningDataName", "入力した項目名は既に使用されています。");
-        */
+        // ログを出力して重複チェックの実行を確認
+        System.out.println("重複チェックが実行されました");
         
         userSkillNew.setUserId(user.getId());
         
