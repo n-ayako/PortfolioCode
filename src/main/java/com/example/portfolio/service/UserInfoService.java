@@ -82,20 +82,20 @@ public class UserInfoService {
 	    return usersMapper.createUserSkillEdit(user.getId());
 	}
 	
-	
     public List<UserSkillNew> getDataByCategoryId(String CategoryId) {
         return usersMapper.selectByCategoryId(CategoryId);
     }
 	
-    
+    //項目追加更新
     public void insertLearningData(UserSkillNew userSkillNew) {
         usersMapper.insertLearningData(userSkillNew);
     }
     
+    //重複チェック
     public boolean isDuplicate(UserSkillNew userSkillNew) {
-        int count = usersMapper.countByMonthAndLearningDataName(userSkillNew);
+        int count = usersMapper.isDuplicate(userSkillNew);
+        System.out.println("重複チェックの結果: " + count);
         return count > 0;
     }
-
 	
 }
