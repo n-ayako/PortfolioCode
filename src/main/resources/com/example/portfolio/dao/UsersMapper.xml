@@ -4,16 +4,16 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
         
 <!--Mybatisを使用してMapperインターフェースとSQLを関連付け-->
-<mapper namespace="com.example.portfolio.dao.UsersMapper">
+	<mapper namespace="com.example.portfolio.dao.UsersMapper">
 
     <!-- 新規登録のSQL文 -->
-    <insert id="save">
-        INSERT INTO users
-            (name, email, password, self_introduction, created_at, updated_at)
-        VALUES
-            (#{name}, #{email}, #{password}, #{self_introduction}, CURRENT_TIMESTAMP,  CURRENT_TIMESTAMP)
-    </insert>
-    
+	<insert id="save">
+	    INSERT INTO users
+	        (name, email, password, self_introduction, created_at, updated_at)
+	    VALUES
+	        (#{name}, #{email}, #{password}, #{selfIntroduction}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+	</insert>
+
     <!-- 指定されたユーザー名に一致するユーザーを取得 -->
     
     <select id="findByUsername" resultType="com.example.portfolio.entity.Users" parameterType="string">
@@ -36,23 +36,28 @@
 	
 	<!-- スキル編集用のデータ取得 -->
 	<select id="createUserSkillEdit" resultType="com.example.portfolio.dto.UserSkillEdit" parameterType="java.lang.Long">
-		SELECT
-			users.id,
-			categories.id AS category_id,
-			categories.name AS category_name,
-			learning_data.name AS learning_data_name,
-			learning_data.study_time,
-			learning_data.month
-		FROM users
-		INNER JOIN learning_data ON users.id = learning_data.user_id
-		INNER JOIN categories ON learning_data.category_id = categories.id
-		WHERE users.id = #{id}
+	    SELECT
+	        learning_data.id AS learning_data_id,
+	        users.id AS user_id,
+	        categories.id AS category_id,
+	        categories.name AS category_name,
+	        learning_data.name AS learning_data_name,
+	        learning_data.study_time,
+	        learning_data.month
+	    FROM users
+	    INNER JOIN learning_data ON users.id = learning_data.user_id
+	    INNER JOIN categories ON learning_data.category_id = categories.id
+	    WHERE users.id = #{id}
 	</select>
 	
-	<!--重複チェック-->
+	<!--重複チェック 月と年で絞り込み-->
+	
 	<select id="isDuplicate" resultType="int" parameterType="com.example.portfolio.dto.UserSkillNew">
-		SELECT COUNT(*) FROM learning_data
-    	WHERE name = #{learningDataName} AND category_id = #{categoryId}
+	    SELECT COUNT(*) 
+	    FROM learning_data 
+	    WHERE DATE_FORMAT(month, '%Y-%m') = DATE_FORMAT(#{month}, '%Y-%m')
+		AND name = #{learningDataName} 
+	    AND category_id = #{categoryId}
 	</select>
 	
 	<!-- スキル項目追加 -->
@@ -60,9 +65,18 @@
 	    INSERT INTO learning_data (name, study_time, category_id, user_id, month, updated_at, created_at)
 	    VALUES (#{learningDataName}, #{studyTime}, #{categoryId}, #{userId}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
 	</insert>
-
-    
-
 	
+	<!-- 学習時間更新 -->
+	<update id="updateStudyTime" parameterType="map">
+	    UPDATE learning_data
+	    SET study_time = #{studyTime}, updated_at = CURRENT_TIMESTAMP
+	    WHERE id = #{id}
+	</update>
+
+	<!-- 学習項目削除 -->
+    <delete id="deleteLearningData">
+        DELETE FROM learning_data
+        WHERE id = #{id}
+    </delete>
 	
 </mapper>
