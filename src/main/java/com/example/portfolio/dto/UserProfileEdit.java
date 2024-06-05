@@ -9,6 +9,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
+//ゲッターとセッターはLombokの@Dataアノテーションで自動生成さるため記述不要
 //ログイン後のユーザー情報取得に使用
 @Data
 public class UserProfileEdit implements Serializable{
@@ -19,28 +20,4 @@ public class UserProfileEdit implements Serializable{
 	private String selfIntroduction;
 
 	private String name;
-	
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
-	
-	public String getSelfIntroduction() {
-	    return selfIntroduction;
-	}
-
-	public void setSelfIntroduction(String selfIntroduction) {
-	    this.selfIntroduction = selfIntroduction;
-	}
-	
-	public String getName() {
-	    return name;
-	}
-
-	public void getName(String name) {
-	    this.name = name;
-	}
 }
