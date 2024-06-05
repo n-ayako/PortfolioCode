@@ -13,6 +13,7 @@ import com.example.portfolio.dto.UserAddRequest;
 import com.example.portfolio.dto.UserProfileEdit;
 import com.example.portfolio.dto.UserSkillEdit;
 import com.example.portfolio.dto.UserSkillNew;
+import com.example.portfolio.dto.UserStudyTimeEdit;
 import com.example.portfolio.entity.Categories;
 import com.example.portfolio.entity.LearningData;
 import com.example.portfolio.entity.Users;
@@ -46,7 +47,16 @@ public interface UsersMapper {
     
     public List<UserSkillNew> selectByCategoryId(String categoryId);
 
-    int isDuplicate(UserSkillNew userSkillNew);
+    public int isDuplicate(UserSkillNew userSkillNew);
+    
+    void updateStudyTime(UserStudyTimeEdit userStudyTimeEdit);
+
+    void deleteLearningData(long id);
+
+	void updateStudyTime(long id, int studyTime);
+    
+    
+	/*void updateStudyTime(Long learningDataId, Integer stdyTime);*/
 }
 
 
