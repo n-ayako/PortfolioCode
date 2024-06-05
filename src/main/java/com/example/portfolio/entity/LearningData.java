@@ -1,10 +1,9 @@
 package com.example.portfolio.entity;
 
 import java.io.Serializable;
-import lombok.Data;
 import java.util.Date;
 import java.util.List;
-
+import lombok.Data;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -16,11 +15,11 @@ public class LearningData implements Serializable {
     @Id // 主キーを示すアノテーション
     private Long id;
     private String name;
-    private String study_time;
+    private Integer studyTime; // study_timeをマッピング
     private Date month;
-    private Integer category_id;
-    private String user_id;
-    private Date created_at;
-    private Date updated_at;
+    private Integer categoryId; // category_idをマッピング
+    private String userId; // user_idをマッピング
+    private Date createdAt; // created_atをマッピング
+    private Date updatedAt; // updated_atをマッピング
     private List<LearningData> learningList;
 }
