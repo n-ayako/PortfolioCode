@@ -249,7 +249,20 @@ public class PortfolioController {
         return "skill_new"; 
     }
     
-    
+    //項目の削除処理
+    @PostMapping("/skill_delete")
+    public String deleteSkill(@RequestParam("id") Long id, Model model) {
+        try {
+            System.out.println("Deleting learning data ID: " + id);
+            UserInfoService.deleteLearningData(id);
+        } catch (Exception e) {
+            model.addAttribute("errorMessage", "削除ができませんでした");
+            e.printStackTrace();
+            return "skill_edit";
+        }
+        //model.addAttribute("notice", "学習項目を削除しました");
+        return "redirect:/skill_edit";
+    }
     
     //学習項目追加画面での項目追加
     @PostMapping("/save_new_skill")
