@@ -19,6 +19,7 @@ import com.example.portfolio.dto.UserAddRequest;
 import com.example.portfolio.dto.UserProfileEdit;
 import com.example.portfolio.dto.UserSkillEdit;
 import com.example.portfolio.dto.UserSkillNew;
+
 import com.example.portfolio.entity.LearningData;
 import com.example.portfolio.entity.Users;
 
@@ -50,8 +51,6 @@ public class UserInfoService {
         usersMapper.save(userAddRequest);
     }
     
-    //最新のユーザー情報を取得する
-
     //プロフィール更新
 	private CustomUserDetails user;
     public UserProfileEdit ProfileInfo(CustomUserDetails user) {
@@ -82,10 +81,16 @@ public class UserInfoService {
 	    return usersMapper.createUserSkillEdit(user.getId());
 	}
 	
-    public List<UserSkillNew> getDataByCategoryId(String CategoryId) {
-        return usersMapper.selectByCategoryId(CategoryId);
+	//学習時間表示
+    public void updateStudyTime(Long id, int studyTime) {
+    	usersMapper.updateStudyTime(id, studyTime);
     }
-	
+
+    //学習項目削除
+    public void deleteLearningData(Long id) {
+    	usersMapper.deleteLearningData(id);
+    }
+    
     //項目追加更新
     public void insertLearningData(UserSkillNew userSkillNew) {
         usersMapper.insertLearningData(userSkillNew);
@@ -97,5 +102,9 @@ public class UserInfoService {
         System.out.println("重複チェックの結果: " + count);
         return count > 0;
     }
+    
+    
+    
+    
 	
 }
