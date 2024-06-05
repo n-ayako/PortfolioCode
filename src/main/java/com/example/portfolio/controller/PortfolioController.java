@@ -1,5 +1,6 @@
 package com.example.portfolio.controller;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -36,15 +37,20 @@ import com.example.portfolio.dto.UserAddRequest;
 import com.example.portfolio.dto.UserProfileEdit;
 import com.example.portfolio.dto.UserSkillEdit;
 import com.example.portfolio.dto.UserSkillNew;
+import com.example.portfolio.dto.UserStudyTimeEdit;
 
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 
+/**
+ * 
+ */
 @Controller
 public class PortfolioController {
 	
+
 	//ページの表示に関するもの
 	//indexへのアクセスがあったらsigninにリダイレクトする
     @RequestMapping("/")
@@ -82,6 +88,7 @@ public class PortfolioController {
 
 	@Autowired
 	private UserDetailsService userDetailsService;
+	
     /**
      * ユーザー新規登録
      * @param userRequest リクエストデータ
@@ -189,7 +196,7 @@ public class PortfolioController {
             return "/profile_edit"; // 更新中にエラーが発生した場合、再度編集フォームを表示
         }
 
-        model.addAttribute("notice", "処理が正常に完了しました。");
+        //model.addAttribute("notice", "プロフィールを更新しました");
         return "redirect:/portfolio"; // 更新が成功したらportfolioにリダイレクト
     }
     
@@ -204,13 +211,30 @@ public class PortfolioController {
                 .collect(Collectors.groupingBy(UserSkillEdit::getCategoryId));
         
         model.addAttribute("skillsByCategory", skillsByCategory);
-        return "skill_edit"; // userSkills.htmlというテンプレートを表示
+        return "skill_edit";
+    }
+
+
+    //学習時間の更新
+    @PostMapping("/skill_edit")
+    public String editSkill(@ModelAttribute UserStudyTimeEdit userStudyTimeEdit, Model model) {
+        try {
+            UserInfoService.updateStudyTime(userStudyTimeEdit.getLearningDataId(), userStudyTimeEdit.getStudyTime());
+        } catch (Exception e) {
+            model.addAttribute("errorMessage", "更新ができませんでした");
+            e.printStackTrace();
+            return "skill_edit";
+        }
+        //model.addAttribute("notice", "学習時間を更新しました");
+        return "redirect:/skill_edit";
     }
 
     
+    //学習項目追加画面の表示
     @GetMapping("/skill_new")
-    public String showNewSkillDataForm(@RequestParam("categoryId") Integer categoryId,@RequestParam("categoryName") String categoryName,
-            @AuthenticationPrincipal CustomUserDetails user,
+    public String showNewSkillDataForm(@RequestParam("categoryId") Integer categoryId,
+    								   @RequestParam("categoryName") String categoryName,
+    								   @AuthenticationPrincipal CustomUserDetails user,
             Model model) {
         // categoryIdをモデルに追加
         model.addAttribute("categoryId", categoryId);
@@ -222,9 +246,12 @@ public class PortfolioController {
         // 必要な他のデータをモデルに追加
         model.addAttribute("userSkillNew", new UserSkillNew());
 
-        return "skill_new"; // new_skill_data.htmlというテンプレートを表示
+        return "skill_new"; 
     }
     
+    
+    
+    //学習項目追加画面での項目追加
     @PostMapping("/save_new_skill")
     public String saveNewSkill(@AuthenticationPrincipal CustomUserDetails user,
             @RequestParam("categoryId") Integer categoryId,
@@ -233,7 +260,12 @@ public class PortfolioController {
             BindingResult result,
             Model model) {
     	
-        // 重複チェック
+    	// 月の重複チェックのために現在の日付を取得してuserSkillNewにセットする
+    	// 月の情報は登録された際にCURRENT_TIMESTAMPで登録されるので登録されるであろう日付を取得してチェックに利用する
+        LocalDate currentMonth = LocalDate.now();
+        userSkillNew.setMonth(currentMonth);
+    	
+        // 項目名と月の重複チェック
         boolean isDuplicate = UserInfoService.isDuplicate(userSkillNew);
         if (isDuplicate) {
             // 重複がある場合の処理
@@ -241,7 +273,6 @@ public class PortfolioController {
         	String learningDataName = userSkillNew.getLearningDataName();
         	model.addAttribute("duplicateError", learningDataName + "は既に登録されています");
             model.addAttribute("categoryId", categoryId);
-            model.addAttribute("categoryName", categoryName);
             model.addAttribute("categoryName", categoryName);
             model.addAttribute("learningDataName", learningDataName);
             return "skill_new"; // 入力フォームに戻る
