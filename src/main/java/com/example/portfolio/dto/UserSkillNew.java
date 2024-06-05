@@ -10,6 +10,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
+//ゲッターとセッターはLombokの@Dataアノテーションで自動生成さるため記述不要
 @Data
 public class UserSkillNew {
     private Long id;
@@ -25,60 +26,4 @@ public class UserSkillNew {
 	@NotNull(message = "学習時間は必ず入力してください")
     @Min(value = 1, message = "学習時間は1以上の数字で入力してください")
     private Integer studyTime;
-
-    // ゲッターとセッター
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Integer getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(Integer categoryId) {
-        this.categoryId = categoryId;
-    }
-
-    public String getCategoryName() {
-        return categoryName;
-    }
-
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    public String getLearningDataName() {
-        return learningDataName;
-    }
-
-    public void setLearningDataName(String learningDataName) {
-        this.learningDataName = learningDataName;
-    }
-
-    public Integer getStudyTime() {
-        return studyTime;
-    }
-
-    public void setStudyTime(Integer studyTime) {
-        this.studyTime = studyTime;
-    }
-    public LocalDate getMonth() {
-        return month;
-    }
-
-    public void setMonth(LocalDate currentDate) {
-        this.month = currentDate;
-    }
 }
