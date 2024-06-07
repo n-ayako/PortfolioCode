@@ -35,29 +35,29 @@
 	</update>
 	
 	<!-- スキル編集用のデータ取得 -->
+	<!--ないデータはnullで取得するためLEFT JOINを使用-->
 	<select id="createUserSkillEdit" resultType="com.example.portfolio.dto.UserSkillEdit" parameterType="java.lang.Long">
-	    SELECT
-	        learning_data.id AS learning_data_id,
-	        users.id AS user_id,
-	        categories.id AS category_id,
-	        categories.name AS category_name,
-	        learning_data.name AS learning_data_name,
-	        learning_data.study_time,
-	        learning_data.month
-	    FROM users
-	    INNER JOIN learning_data ON users.id = learning_data.user_id
-	    INNER JOIN categories ON learning_data.category_id = categories.id
-	    WHERE users.id = #{id}
+		SELECT
+		    categories.id AS category_id,
+		    categories.name AS category_name,
+		    learning_data.id AS learning_data_id,
+		    learning_data.name AS learning_data_name,
+		    learning_data.study_time,
+		    learning_data.month
+		FROM categories
+		LEFT JOIN learning_data ON categories.id = learning_data.category_id AND learning_data.user_id = #{id}
+		ORDER BY categories.id;
 	</select>
 	
 	<!--重複チェック 月と年で絞り込み-->
-	
+	<!--DATE_FORMATを使用して年と月の部分を取り出す-->
 	<select id="isDuplicate" resultType="int" parameterType="com.example.portfolio.dto.UserSkillNew">
-	    SELECT COUNT(*) 
-	    FROM learning_data 
-	    WHERE DATE_FORMAT(month, '%Y-%m') = DATE_FORMAT(#{month}, '%Y-%m')
-		AND name = #{learningDataName} 
-	    AND category_id = #{categoryId}
+    SELECT COUNT(*) 
+    FROM learning_data 
+    WHERE DATE_FORMAT(month, '%Y-%m') = DATE_FORMAT(#{month}, '%Y-%m')
+      AND name = #{learningDataName}
+      AND category_id = #{categoryId}
+      AND user_id = #{userId}
 	</select>
 	
 	<!-- スキル項目追加 -->
