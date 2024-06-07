@@ -40,9 +40,13 @@
 		</div>
     </header>
 	<footer th:fragment="footer" class="footer">
-		<div class="footer_container">
-		  <p>portfolio site</p>
-	  	</div>
+		<div th:if="${customUserDetails != null}">
+			<p>ユーザー/<span th:text="${customUserDetails.name}">User Name</span></p>
+		    <!-- 他のユーザー情報も同様に表示 -->
+		</div>
+		<div th:if="${customUserDetails == null}" class="footer_container">
+		    <p>portfolio site</p>
+		</div>
 	</footer>
 </body>
 </html>
