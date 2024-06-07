@@ -18,10 +18,18 @@
 	        <h1>My Portfolio</h1>
 		</div>
     </header>
+	
+	<div class="footer_container">
+	  <p>portfolio site</p>
+	</div>
+	
 	<footer th:fragment="footer" class="footer">
-		<div class="footer_container">
-		  <p>portfolio site</p>
-	  	</div>
+		<div th:if="${customUserDetails != null}" class="footer_container">
+			<p>ユーザー/<span th:text="${customUserDetails.name}">User Name</span></p>
+		</div>
+		<div th:if="${customUserDetails == null}" class="footer_container">
+		    <p>portfolio site</p>
+		</div>
 	</footer>
 </body>
 </html>
