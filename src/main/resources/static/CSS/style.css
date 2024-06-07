@@ -212,6 +212,8 @@ h1{
 	padding: 40px;
 	margin-top: 50px;
 	border-radius: 8px;
+	height: 400px;
+	overflow-y: auto; 
 }
 .skill_content .keep_btn{
 	background-color: #fff;
@@ -228,6 +230,11 @@ h1{
 	color: #fff;
 	padding: 8px 16px;
 	cursor: pointer;
+}
+.skill_content .positon_end{
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
 }
 .slill_item{
 	border: 1px solid #ddd;
