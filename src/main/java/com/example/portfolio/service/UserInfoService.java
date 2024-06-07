@@ -81,7 +81,7 @@ public class UserInfoService {
 	    return usersMapper.createUserSkillEdit(user.getId());
 	}
 	
-	//学習時間表示
+	//学習時間更新
     public void updateStudyTime(Long id, int studyTime) {
     	usersMapper.updateStudyTime(id, studyTime);
     }
@@ -103,8 +103,5 @@ public class UserInfoService {
         return count > 0;
     }
     
-    
-    
-    
-	
+
 }
