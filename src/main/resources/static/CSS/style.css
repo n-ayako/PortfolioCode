@@ -173,6 +173,14 @@ h1{
     max-width: 360px;
     margin: 0px auto 30px;
 }
+.chart_container{
+	width: 1081px;
+	height: 532px;
+	margin:80px auto;
+}
+.chart_content{
+	
+}
 /*自己紹介編集*/
 .profile_edit_container{
 	padding: 50px 0px;

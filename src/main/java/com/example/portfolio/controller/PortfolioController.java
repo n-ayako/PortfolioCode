@@ -1,5 +1,6 @@
 package com.example.portfolio.controller;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
@@ -38,6 +39,7 @@ import com.example.portfolio.dto.UserProfileEdit;
 import com.example.portfolio.dto.UserSkillEdit;
 import com.example.portfolio.dto.UserSkillNew;
 import com.example.portfolio.dto.UserStudyTimeEdit;
+import com.example.portfolio.dto.UserStudyTimeSum;
 
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -59,6 +61,7 @@ public class PortfolioController {
         return "redirect:/login";
     }
 
+    
     // loginにリクエストがあった場合に表示するメソッド
     @RequestMapping(value = "/login")
     public String displaylogin(Model model) {
@@ -151,6 +154,24 @@ public class PortfolioController {
         // モデルにユーザー情報と個人情報を追加
         model.addAttribute("customUserDetails", user);
         model.addAttribute("userProfileEdit", form);
+        
+        List<UserStudyTimeSum> data = UserInfoService.getUserStudyTimeSum(user);
+        model.addAttribute("UserStudyTimeSum", data);
+        
+        // 月リストを作成
+        List<String> months = data.stream()
+                .map(UserStudyTimeSum::getMonth)
+                .distinct()
+                .collect(Collectors.toList());
+        model.addAttribute("months", months);
+
+        // カテゴリごとに学習時間をまとめる
+        Map<String, List<BigDecimal>> categoryStudyTimes = data.stream()
+                .collect(Collectors.groupingBy(
+                        UserStudyTimeSum::getCategoryName,
+                        Collectors.mapping(UserStudyTimeSum::getTotalStudyTime, Collectors.toList())
+                ));
+        model.addAttribute("categoryStudyTimes", categoryStudyTimes);
         
         // ポートフォリオページを表示
         return "portfolio";

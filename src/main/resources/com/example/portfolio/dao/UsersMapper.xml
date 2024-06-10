@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
         
-<!--Mybatisを使用してMapperインターフェースとSQLを関連付け-->
+	<!--Mybatisを使用してMapperインターフェースとSQLを関連付け-->
 	<mapper namespace="com.example.portfolio.dao.UsersMapper">
 
     <!-- 新規登録のSQL文 -->
@@ -33,6 +33,22 @@
 	    SET self_introduction = #{selfIntroduction}
 	    WHERE id = #{id}
 	</update>
+	
+	<!--グラフデータ表示用-->
+	
+	<select id="findUserStudyTimeSum" resultType="com.example.portfolio.dto.UserStudyTimeSum" parameterType="java.lang.Long">
+		SELECT categories.id AS categoryId,
+		       categories.name AS categoryName,
+		       DATE_FORMAT(learning_data.month, '%Y-%m') AS month, 
+		       SUM(learning_data.study_time) AS totalStudyTime
+		FROM learning_data
+		JOIN categories ON learning_data.category_id = categories.id
+		JOIN users ON learning_data.user_id = users.id
+		WHERE users.id = #{id}
+				AND learning_data.month >= DATE_ADD(NOW(), INTERVAL -3 MONTH)
+		GROUP BY categories.id, categories.name, DATE_FORMAT(learning_data.month, '%Y-%m')
+		ORDER BY DATE_FORMAT(learning_data.month, '%Y-%m') ASC;
+	</select>
 	
 	<!-- スキル編集用のデータ取得 -->
 	<!--ないデータはnullで取得するためLEFT JOINを使用-->

@@ -13,7 +13,9 @@ import com.example.portfolio.dto.UserAddRequest;
 import com.example.portfolio.dto.UserProfileEdit;
 import com.example.portfolio.dto.UserSkillEdit;
 import com.example.portfolio.dto.UserSkillNew;
+
 import com.example.portfolio.dto.UserStudyTimeEdit;
+import com.example.portfolio.dto.UserStudyTimeSum;
 import com.example.portfolio.entity.Categories;
 import com.example.portfolio.entity.LearningData;
 import com.example.portfolio.entity.Users;
@@ -55,7 +57,8 @@ public interface UsersMapper {
 
 	void updateStudyTime(long id, int studyTime);
     
-    
+	List<UserStudyTimeSum> findUserStudyTimeSum(long id);
+	
 	/*void updateStudyTime(Long learningDataId, Integer stdyTime);*/
 }
 
