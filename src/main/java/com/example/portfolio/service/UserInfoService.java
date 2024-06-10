@@ -19,7 +19,7 @@ import com.example.portfolio.dto.UserAddRequest;
 import com.example.portfolio.dto.UserProfileEdit;
 import com.example.portfolio.dto.UserSkillEdit;
 import com.example.portfolio.dto.UserSkillNew;
-
+import com.example.portfolio.dto.UserStudyTimeSum;
 import com.example.portfolio.entity.LearningData;
 import com.example.portfolio.entity.Users;
 
@@ -81,7 +81,12 @@ public class UserInfoService {
 	    return usersMapper.createUserSkillEdit(user.getId());
 	}
 	
-	//学習時間表示
+	//グラフ表示
+	public List<UserStudyTimeSum>getUserStudyTimeSum(CustomUserDetails user){
+    	return usersMapper.findUserStudyTimeSum(user.getId());
+	}
+	
+	//学習時間更新
     public void updateStudyTime(Long id, int studyTime) {
     	usersMapper.updateStudyTime(id, studyTime);
     }
@@ -103,8 +108,5 @@ public class UserInfoService {
         return count > 0;
     }
     
-    
-    
-    
-	
+
 }

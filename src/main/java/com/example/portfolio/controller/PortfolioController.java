@@ -1,5 +1,6 @@
 package com.example.portfolio.controller;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
@@ -38,6 +39,7 @@ import com.example.portfolio.dto.UserProfileEdit;
 import com.example.portfolio.dto.UserSkillEdit;
 import com.example.portfolio.dto.UserSkillNew;
 import com.example.portfolio.dto.UserStudyTimeEdit;
+import com.example.portfolio.dto.UserStudyTimeSum;
 
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -59,6 +61,7 @@ public class PortfolioController {
         return "redirect:/login";
     }
 
+    
     // loginにリクエストがあった場合に表示するメソッド
     @RequestMapping(value = "/login")
     public String displaylogin(Model model) {
@@ -113,8 +116,7 @@ public class PortfolioController {
         // 登録後の自動ログイン処理
         try {
             // ユーザー情報をロード
-            UserDetails 
-            userDetails = userDetailsService.loadUserByUsername(userRequest.getEmail());
+            UserDetails userDetails = userDetailsService.loadUserByUsername(userRequest.getEmail());
 
             // ロードしたユーザー情報をログに出力
             System.out.println("User details: " + userDetails);
@@ -152,6 +154,24 @@ public class PortfolioController {
         // モデルにユーザー情報と個人情報を追加
         model.addAttribute("customUserDetails", user);
         model.addAttribute("userProfileEdit", form);
+        
+        List<UserStudyTimeSum> data = UserInfoService.getUserStudyTimeSum(user);
+        model.addAttribute("UserStudyTimeSum", data);
+        
+        // 月リストを作成
+        List<String> months = data.stream()
+                .map(UserStudyTimeSum::getMonth)
+                .distinct()
+                .collect(Collectors.toList());
+        model.addAttribute("months", months);
+
+        // カテゴリごとに学習時間をまとめる
+        Map<String, List<BigDecimal>> categoryStudyTimes = data.stream()
+                .collect(Collectors.groupingBy(
+                        UserStudyTimeSum::getCategoryName,
+                        Collectors.mapping(UserStudyTimeSum::getTotalStudyTime, Collectors.toList())
+                ));
+        model.addAttribute("categoryStudyTimes", categoryStudyTimes);
         
         // ポートフォリオページを表示
         return "portfolio";
@@ -206,10 +226,11 @@ public class PortfolioController {
     public String getUserSkills(@AuthenticationPrincipal CustomUserDetails user, Model model) {
         List<UserSkillEdit> skills = UserInfoService.skillInfo(user);
 
-     // CategoryIdごとにグループ化
+        // CategoryIdごとにグループ化することで動的に表示させる
         Map<Integer, List<UserSkillEdit>> skillsByCategory = skills.stream()
                 .collect(Collectors.groupingBy(UserSkillEdit::getCategoryId));
-        
+
+        model.addAttribute("customUserDetails", user);
         model.addAttribute("skillsByCategory", skillsByCategory);
         return "skill_edit";
     }
@@ -225,7 +246,7 @@ public class PortfolioController {
             e.printStackTrace();
             return "skill_edit";
         }
-        //model.addAttribute("notice", "学習時間を更新しました");
+        model.addAttribute("notice", "学習時間を更新しました");
         return "redirect:/skill_edit";
     }
 
@@ -245,11 +266,25 @@ public class PortfolioController {
         
         // 必要な他のデータをモデルに追加
         model.addAttribute("userSkillNew", new UserSkillNew());
+        model.addAttribute("customUserDetails", user);
 
         return "skill_new"; 
     }
     
-    
+    //項目の削除処理
+    @PostMapping("/skill_delete")
+    public String deleteSkill(@RequestParam("id") Long id, Model model) {
+        try {
+            System.out.println("Deleting learning data ID: " + id);
+            UserInfoService.deleteLearningData(id);
+        } catch (Exception e) {
+            model.addAttribute("errorMessage", "削除ができませんでした");
+            e.printStackTrace();
+            return "skill_edit";
+        }
+        model.addAttribute("notice", "学習項目を削除しました");
+        return "redirect:/skill_edit";
+    }
     
     //学習項目追加画面での項目追加
     @PostMapping("/save_new_skill")
@@ -264,6 +299,7 @@ public class PortfolioController {
     	// 月の情報は登録された際にCURRENT_TIMESTAMPで登録されるので登録されるであろう日付を取得してチェックに利用する
         LocalDate currentMonth = LocalDate.now();
         userSkillNew.setMonth(currentMonth);
+        userSkillNew.setUserId(user.getId());
     	
         // 項目名と月の重複チェック
         boolean isDuplicate = UserInfoService.isDuplicate(userSkillNew);
@@ -305,8 +341,6 @@ public class PortfolioController {
         
         // ログを出力して重複チェックの実行を確認
         System.out.println("重複チェックが実行されました");
-        
-        userSkillNew.setUserId(user.getId());
         
         //保存する処理
         UserInfoService.insertLearningData(userSkillNew);

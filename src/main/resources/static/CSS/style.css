@@ -173,6 +173,14 @@ h1{
     max-width: 360px;
     margin: 0px auto 30px;
 }
+.chart_container{
+	width: 1081px;
+	height: 532px;
+	margin:80px auto;
+}
+.chart_content{
+	
+}
 /*自己紹介編集*/
 .profile_edit_container{
 	padding: 50px 0px;
@@ -212,6 +220,8 @@ h1{
 	padding: 40px;
 	margin-top: 50px;
 	border-radius: 8px;
+	height: 450px;
+	overflow-y: auto; 
 }
 .skill_content .keep_btn{
 	background-color: #fff;
@@ -228,6 +238,11 @@ h1{
 	color: #fff;
 	padding: 8px 16px;
 	cursor: pointer;
+}
+.skill_content .positon_end{
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
 }
 .slill_item{
 	border: 1px solid #ddd;

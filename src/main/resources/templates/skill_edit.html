@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="common-logout :: meta_header('top',~{::link},~{::script})">
-    <!-- (2)このページ固有で読み込むCSS/JSあれば以下に記載 -->
+    <!-- このページ固有で読み込むCSS/JSあれば以下に記載 -->
 </head>
 <body>
     <!-- body header共通部品を呼び出す -->
@@ -19,13 +19,13 @@
                                 <option>4月</option>
                             </select>
                         </div>
-						<!--自動で取得するとleading_dataテーブルに情報がなかった場合、以下は空で表示されてしまう-->
+                        <!-- 自動で取得するとlearning_dataテーブルに情報がなかった場合、以下は空で表示されてしまう -->
                         <div class="skill_content" th:each="entry : ${skillsByCategory}">
                             <div class="skill_menu">
-								<h2 th:text="${entry.value.size() > 0 ? entry.value[0].categoryName : 'カテゴリ名'}"></h2>
-								<a th:href="@{/skill_new(categoryId=${entry.key}, categoryName=${entry.value.size() > 0 ? entry.value[0].categoryName : 'カテゴリ名'})}">
-								    <button class="entry_btn">項目を追加する</button>
-								</a>
+                                <h2 th:text="${entry.value.size() > 0 ? entry.value[0].categoryName : 'カテゴリ名'}">カテゴリ名</h2>
+                                <a th:href="@{/skill_new(categoryId=${entry.key}, categoryName=${entry.value.size() > 0 ? entry.value[0].categoryName : 'カテゴリ名'})}">
+                                    <button class="entry_btn">項目を追加する</button>
+                                </a>
                             </div>
                             <div class="skill_item">
                                 <table>
@@ -34,28 +34,30 @@
                                             <th>項目名</th>
                                             <th>学習時間</th>
                                             <th></th>
-                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr th:each="skill : ${entry.value}">
-                                            <form th:action="@{/skill_edit}" method="post">
-                                                <td th:text="${skill.learningDataName}" class="category_name"></td>
-                                                <td>
-                                                    <input type="number" th:value="${skill.studyTime}" name="studyTime" min="0" class="skill_time">
-                                                    <input type="hidden" name="learningDataId" th:value="${skill.learningDataId}">
-                                                </td>
-                                                <td>
-                                                    <input type="submit" class="keep_btn" value="学習時間を保存する" />
-                                                </td>
-                                            </form>
-                                            <td>
-												<form th:action="@{/skill_delete}" method="post">
-												<input type="hidden" name="id" th:value="${skill.learningDataId}">
-												<input type="submit" class="delete_btn" value="削除する">
-												</form>
-                                            </td>
-                                        </tr>
+										<!-- entryが空またはnullの場合に表示する内容 -->
+											<tr th:each="skill : ${entry.value}" th:if="${skill.learningDataName == null || skill.studyTime == null}">
+											    <td colspan="4">項目がありません。「項目を追加する」ボタンから追加を行ってください。</td>
+											</tr>
+                                        <!-- entryがnullの場合には表示しない -->
+										<tr th:each="skill : ${entry.value}" th:if="${skill.learningDataName != null && skill.studyTime != null}">
+										    <td th:text="${skill.learningDataName}" class="category_name">項目名</td>
+										    <td>
+											        <form th:action="@{/skill_edit}" method="post" class="positon_end">
+											            <input type="number" th:value="${skill.studyTime}" name="studyTime" min="0" class="skill_time">
+											            <input type="hidden" name="learningDataId" th:value="${skill.learningDataId}">
+											            <input type="submit" class="keep_btn" value="学習時間を保存する">
+											        </form>
+										    </td>
+										    <td>
+										        <form th:action="@{/skill_delete}" method="post">
+										            <input type="hidden" name="id" th:value="${skill.learningDataId}">
+										            <input type="submit" class="delete_btn" value="削除する">
+										        </form>
+										    </td>
+										</tr>
                                     </tbody>
                                 </table>
                             </div>
