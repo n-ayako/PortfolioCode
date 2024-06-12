@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <!-- 共通header -->
-<head th:replace="common-logout :: meta_header('top',~{::link},~{::script})">
+<head th:replace="~{common-meta-header :: meta_header('自己紹介編集',~{::link},~{::script})}">
     <!-- (2)このページ固有で読み込むCSS/JSあれば以下に記載 -->
 </head>
 <body>
     <!-- body header共通部品を呼び出す -->
-    <div th:replace="common-logout :: header"></div>
+	<div th:replace="~{common-header-sginin :: header}"></div>
 	<main>
 		<section>
 			<div class="container">
@@ -37,26 +37,6 @@
 		 </section>
 	 </main>
 	 <!-- body footer共通部品を呼び出す -->
-	<div th:replace="common-logout :: footer"></div>
-	
-	<script>
-		const buttonElement = document.querySelector(".photo_input");
-		
-		buttonElement.addEventListener("click", () => {
-		  document.querySelector("input").click();
-		});
-		
-		// Space / Enter キーで click イベントを発火できるようにする
-		buttonElement.addEventListener("keydown", (event) => {
-		  if (!buttonElement.isEqualNode(event.target)) {
-		    return;
-		  }
-		
-		  if (event.keyCode === 32 || event.keyCode === 13) {
-		    event.preventDefault();
-		    document.querySelector("input").click();
-		  }
-		});
-	</script>
+	 <div th:replace="~{common-footer :: footer}"></div>
 </body>
 </html>

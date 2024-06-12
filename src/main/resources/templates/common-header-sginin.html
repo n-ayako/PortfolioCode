@@ -1,0 +1,14 @@
+<!--body内で共通化したい部品をfragment化 -->
+<header th:fragment="header" class="header">
+	<div class="header_container">
+        <h1>My Portfolio</h1>
+		<div th:if="${customUserDetails != null}" sec:authorize="isAuthenticated()">
+		    <form th:action="@{/logout}" method="post">
+		        <button class="login_btn">ログアウト</button>
+		    </form>
+		</div>
+		<div th:if="${customUserDetails == null}" sec:authorize="isAnonymous()">
+			<a th:href="@{/login}" class="login_btn">ログイン</a>
+		</div>
+	</div>
+</header>

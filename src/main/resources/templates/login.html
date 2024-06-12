@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="ja" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <!-- 共通header -->
-<head th:replace="common-login :: meta_header('top',~{::link},~{::script})">
+<head th:replace="~{common-meta-header :: meta_header('ログイン',~{::link},~{::script})}"></head>
+	
     <!-- このページ固有で読み込むCSS/JSあれば以下に記載 -->
 </head>
 <body>
     <!-- body header共通部品を呼び出す -->
-    <div th:replace="common-login :: header"></div>
+	<div th:replace="~{common-header-login :: header}"></div>
 	<main>
 		<section>
 			<div class="entry content">
@@ -37,6 +38,6 @@
 		 </section>
 	 </main>
 	 <!-- body footer共通部品を呼び出す -->
-	<div th:replace="common-login :: footer"></div>
+	 <div th:replace="~{common-footer :: footer}"></div>
 </body>
 </html>

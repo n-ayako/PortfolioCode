@@ -1,0 +1,8 @@
+<footer th:fragment="footer" class="footer">
+	<div th:if="${customUserDetails != null}" class="footer_container">
+		<p><span th:text="${customUserDetails.name}">User Name</span></p>
+	</div>
+	<div th:if="${customUserDetails == null}" class="footer_container">
+	    <p>portfolio site</p>
+	</div>
+</footer>

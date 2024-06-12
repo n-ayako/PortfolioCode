@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="ja" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <!-- 共通header -->
-<head th:replace="common :: meta_header('top',~{::link},~{::script})">
+<head th:replace="~{common-meta-header :: meta_header('新規登録',~{::link},~{::script})}"></head>
     <!-- (2)このページ固有で読み込むCSS/JSあれば以下に記載 -->
 </head>
 <body>
     <!-- body header共通部品を呼び出す -->
-    <div th:replace="common :: header"></div>
+	<div th:replace="~{common-header-sginin :: header}"></div>
 	<main>
 		<section>
 			<div class="entry content">
@@ -44,6 +44,6 @@
 		 </section>
 	 </main>
 	 <!-- body footer共通部品を呼び出す -->
-	<div th:replace="common :: footer"></div>
+	 <div th:replace="~{common-footer :: footer}"></div>
 </body>
 </html>

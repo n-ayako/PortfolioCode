@@ -1,0 +1,11 @@
+<head th:fragment="meta_header(title,links,scripts)">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <!-- (2)共通で読み込むCSS/JS -->
+	<link th:href="@{/css/style.css}" rel="stylesheet" type="text/css">
+	<!-- (3)タイトルのフォーマット -->
+    <title th:text="${title}+' | Portfolio'">各ページタイトル | sample app</title>
+
+    <!-- (4)各View固有で読み込むもの -->
+    <th:block th:replace="${links} ?: _" />
+    <th:block th:replace="${scripts} ?: _" />
+</head>

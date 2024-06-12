@@ -5,7 +5,7 @@
     <!-- (2)共通で読み込むCSS/JS -->
 	<link th:href="@{/css/style.css}" rel="stylesheet" type="text/css">
 	<!-- (3)タイトルのフォーマット -->
-    <title th:text="${title}+' | sample app'">各ページタイトル | sample app</title>
+    <title th:text="${title}+' | Portfolio'">各ページタイトル | Portfolio</title>
 
     <!-- (4)各View固有で読み込むもの -->
     <th:block th:replace="${links} ?: _" />
